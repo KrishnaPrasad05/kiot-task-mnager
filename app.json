@@ -18,10 +18,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.krishnasrinivasan.kiottask",
+      "permissions": ["INTERNET"] 
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0d26185a-ad46-4be7-b8f7-99aec4e16966"
+      }
     }
   }
 }
