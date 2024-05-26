@@ -45,7 +45,7 @@ const CCRDetails = ({ route }) => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/ccr/${faculty.id}`, {
+      const response = await fetch(`https://${variableValue}/ccr/${faculty.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ const CCRDetails = ({ route }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/ccr/${faculty.id}`, {
+      const response = await fetch(`https://${variableValue}/ccr/${faculty.id}`, {
         method: 'DELETE',
       });
 

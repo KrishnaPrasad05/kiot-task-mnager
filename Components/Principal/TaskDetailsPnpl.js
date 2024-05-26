@@ -41,7 +41,7 @@ const TaskDetailsPnpl = ({ route }) => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/tasks/${faculty.id}`, {
+      const response = await fetch(`https://${variableValue}/tasks/${faculty.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ const TaskDetailsPnpl = ({ route }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/tasks/${faculty.id}`, {
+      const response = await fetch(`https://${variableValue}/tasks/${faculty.id}`, {
         method: 'DELETE',
       });
 

@@ -12,7 +12,7 @@ const AssignedCCRDetails = ({ route }) => {
 
   const handleUpdateStatus = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/ccr/${faculty.id}`, {
+      const response = await fetch(`https://${variableValue}/ccr/${faculty.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

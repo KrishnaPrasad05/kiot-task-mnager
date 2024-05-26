@@ -20,7 +20,7 @@ const FacultyDetailsPnpl = ({ route }) => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/faculty/${faculty.id}`, {
+      const response = await fetch(`https://${variableValue}/faculty/${faculty.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ const FacultyDetailsPnpl = ({ route }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/faculty/${faculty.id}`, {
+      const response = await fetch(`https://${variableValue}/faculty/${faculty.id}`, {
         method: 'DELETE',
       });
 

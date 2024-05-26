@@ -12,7 +12,7 @@ const AssignedOnCDetails = ({ route }) => {
 
   const handleUpdateStatus = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/oncamp/${faculty.id}`, {
+      const response = await fetch(`https://${variableValue}/oncamp/${faculty.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

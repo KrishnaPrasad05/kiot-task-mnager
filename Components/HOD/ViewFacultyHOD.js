@@ -14,7 +14,7 @@ const ViewFacultyHod = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/faculty`); // Replace with your server URL
+      const response = await fetch(`https://${variableValue}/faculty`); // Replace with your server URL
       const jsonData = await response.json();
       setData(jsonData);
     } catch (error) {
@@ -30,7 +30,7 @@ const ViewFacultyHod = () => {
     console.log("Refreshing data...");
     setRefreshing(true); // Set refreshing state to true
     try {
-      const response = await fetch(`http://${variableValue}/faculty`); // Fetch data
+      const response = await fetch(`https://${variableValue}/faculty`); // Fetch data
       const jsonData = await response.json();
       setData(jsonData); // Update data state
       console.log("Data refreshed!");

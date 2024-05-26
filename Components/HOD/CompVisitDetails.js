@@ -45,7 +45,7 @@ const CompVisitDetails = ({ route }) => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/compVist/${faculty.id}`, {
+      const response = await fetch(`https://${variableValue}/compVist/${faculty.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ const CompVisitDetails = ({ route }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/compVist/${faculty.id}`, {
+      const response = await fetch(`https://${variableValue}/compVist/${faculty.id}`, {
         method: 'DELETE',
       });
 

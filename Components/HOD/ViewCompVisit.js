@@ -16,7 +16,7 @@ const ViewCompVisit = ({ route }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/compVist`); // Replace with your server URL
+      const response = await fetch(`https://${variableValue}/compVist`); // Replace with your server URL
       const jsonData = await response.json();
       setData(jsonData);
     } catch (error) {
@@ -49,7 +49,7 @@ const ViewCompVisit = ({ route }) => {
     console.log("Refreshing data...");
     setRefreshing(true); // Set refreshing state to true
     try {
-      const response = await fetch(`http://${variableValue}/compVist`); // Fetch data
+      const response = await fetch(`https://${variableValue}/compVist`); // Fetch data
       const jsonData = await response.json();
       setData(jsonData); // Update data state
       console.log("Data refreshed!");

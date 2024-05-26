@@ -19,7 +19,7 @@ const OffCampStatus = () => {
   
     const fetchPendingCount = async () => {
       try {
-        const response = await fetch(`http://${variableValue}/offCamp?status=Pending`);
+        const response = await fetch(`https://${variableValue}/offCamp?status=Pending`);
         const jsonData = await response.json();
         setPendingCount(jsonData.length);
       } catch (error) {
@@ -28,7 +28,7 @@ const OffCampStatus = () => {
     };
     const fetchResolvedCount = async () => {
       try {
-        const response = await fetch(`http://${variableValue}/offCamp?status=resolved`);
+        const response = await fetch(`https://${variableValue}/offCamp?status=resolved`);
         const jsonData = await response.json();
         setResolvedCount(jsonData.length);
       } catch (error) {
@@ -37,7 +37,7 @@ const OffCampStatus = () => {
     };
     const fetchProgressCount = async () => {
       try {
-        const response = await fetch(`http://${variableValue}/offCamp?status=on-progress`);
+        const response = await fetch(`https://${variableValue}/offCamp?status=on-progress`);
         const jsonData = await response.json();
         setProgressCount(jsonData.length);
       } catch (error) {
@@ -46,7 +46,7 @@ const OffCampStatus = () => {
     };
     const fetchLaterCount = async () => {
       try {
-        const response = await fetch(`http://${variableValue}/offCamp?status=later`);
+        const response = await fetch(`https://${variableValue}/offCamp?status=later`);
         const jsonData = await response.json();
         setLaterCount(jsonData.length);
       } catch (error) {

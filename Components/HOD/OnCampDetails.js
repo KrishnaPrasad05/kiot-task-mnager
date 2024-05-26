@@ -45,7 +45,7 @@ const OffCampDetails = ({ route }) => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/offCamp/${faculty.id}`, {
+      const response = await fetch(`https://${variableValue}/offCamp/${faculty.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ const OffCampDetails = ({ route }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/onCamp/${faculty.id}`, {
+      const response = await fetch(`https://${variableValue}/onCamp/${faculty.id}`, {
         method: 'DELETE',
       });
 

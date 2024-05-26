@@ -16,7 +16,7 @@ const AssignedCCR = () => {
   const fetchData = async () => {
     try {
       
-      const response = await fetch(`http://${variableValue}/ccr?assignTo=${name}`);
+      const response = await fetch(`https://${variableValue}/ccr?assignTo=${name}`);
       const taskData = await response.json();
   
       // Filter tasks based on faculty's name

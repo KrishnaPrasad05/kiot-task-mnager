@@ -19,7 +19,7 @@ const LoginPnpl = () => {
     }
 
     try {
-      const response = await fetch(`http://${variableValue}/faculty?username=${username}&password=${password}`);
+      const response = await fetch(`https://${variableValue}/faculty?username=${username}&password=${password}`);
       const userData = await response.json();
 
       if (userData.length > 0) {

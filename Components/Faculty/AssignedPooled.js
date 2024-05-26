@@ -16,7 +16,7 @@ const AssignedPooled = () => {
   const fetchData = async () => {
     try {
       
-      const response = await fetch(`http://${variableValue}/pooled?assignTo=${name}`);
+      const response = await fetch(`https://${variableValue}/pooled?assignTo=${name}`);
       const taskData = await response.json();
   
       // Filter tasks based on faculty's name

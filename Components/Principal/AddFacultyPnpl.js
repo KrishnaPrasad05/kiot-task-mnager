@@ -19,7 +19,7 @@ const AddFacultyPnpl = () => {
     }
 
     try {
-      const response = await fetch(`http://${variableValue}/faculty`, {
+      const response = await fetch(`https://${variableValue}/faculty`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

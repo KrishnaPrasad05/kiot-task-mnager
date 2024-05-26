@@ -71,19 +71,19 @@ const AssignCCR = () => {
         let endpoint = '';
         switch (taskName) {
           case 'CCR':
-            endpoint = `http://${variableValue}/ccr`;
+            endpoint = `https://${variableValue}/ccr`;
             break;
           case 'Company Visits':
-            endpoint = `http://${variableValue}/compVist`; // Adjust endpoint as per your requirement
+            endpoint = `https://${variableValue}/compVist`; // Adjust endpoint as per your requirement
             break;
           case 'On-Campus Drive':
-            endpoint = `http://${variableValue}/onCamp`; // Adjust endpoint as per your requirement
+            endpoint = `https://${variableValue}/onCamp`; // Adjust endpoint as per your requirement
             break;
           case 'Off-Campus Drive':
-            endpoint = `http://${variableValue}/offCamp`; // Adjust endpoint as per your requirement
+            endpoint = `https://${variableValue}/offCamp`; // Adjust endpoint as per your requirement
             break;
           case 'Pooled Drive':
-            endpoint = `http://${variableValue}/pooled`; // Adjust endpoint as per your requirement
+            endpoint = `https://${variableValue}/pooled`; // Adjust endpoint as per your requirement
             break;
           // Add cases for other task names as needed
           default:
@@ -156,7 +156,7 @@ const AssignCCR = () => {
   };
 
   useEffect(() => {
-    fetch(`http://${variableValue}/faculty`)
+    fetch(`https://${variableValue}/faculty`)
       .then(response => response.json())
       .then(data => setFacultyList(data))
       .catch(error => console.error('Error fetching faculty:', error));

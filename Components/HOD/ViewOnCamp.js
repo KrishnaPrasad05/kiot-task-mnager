@@ -16,7 +16,7 @@ const ViewOnCamp = ({ route }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/onCamp`); // Replace with your server URL
+      const response = await fetch(`https://${variableValue}/onCamp`); // Replace with your server URL
       const jsonData = await response.json();
       setData(jsonData);
     } catch (error) {
@@ -49,7 +49,7 @@ const ViewOnCamp = ({ route }) => {
     console.log("Refreshing data...");
     setRefreshing(true); // Set refreshing state to true
     try {
-      const response = await fetch(`http://${variableValue}/onCamp`); // Fetch data
+      const response = await fetch(`https://${variableValue}/onCamp`); // Fetch data
       const jsonData = await response.json();
       setData(jsonData); // Update data state
       console.log("Data refreshed!");

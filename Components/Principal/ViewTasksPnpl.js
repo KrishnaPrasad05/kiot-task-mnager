@@ -16,7 +16,7 @@ const ViewTasksHod = ({ route }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/tasks`); // Replace with your server URL
+      const response = await fetch(`https://${variableValue}/tasks`); // Replace with your server URL
       const jsonData = await response.json();
       setData(jsonData);
     } catch (error) {
@@ -49,7 +49,7 @@ const ViewTasksHod = ({ route }) => {
     console.log("Refreshing data...");
     setRefreshing(true); // Set refreshing state to true
     try {
-      const response = await fetch(`http://${variableValue}/tasks`); // Fetch data
+      const response = await fetch(`https://${variableValue}/tasks`); // Fetch data
       const jsonData = await response.json();
       setData(jsonData); // Update data state
       console.log("Data refreshed!");

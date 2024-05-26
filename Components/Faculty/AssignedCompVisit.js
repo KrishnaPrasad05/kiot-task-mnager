@@ -16,7 +16,7 @@ const AssignedCompVisit = () => {
   const fetchData = async () => {
     try {
       
-      const response = await fetch(`http://${variableValue}/compVist?assignTo=${name}`);
+      const response = await fetch(`https://${variableValue}/compVist?assignTo=${name}`);
       const taskData = await response.json();
   
       // Filter tasks based on faculty's name

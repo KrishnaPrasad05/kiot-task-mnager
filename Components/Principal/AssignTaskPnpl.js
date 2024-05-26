@@ -22,7 +22,7 @@ const AssignTaskPnpl = () => {
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
   useEffect(() => {
-    fetch(`http://${variableValue}/faculty`)
+    fetch(`https://${variableValue}/faculty`)
       .then(response => response.json())
       .then(data => setFacultyList(data))
       .catch(error => console.error('Error fetching faculty:', error));
@@ -84,7 +84,7 @@ const AssignTaskPnpl = () => {
     };
 
     try {
-      const response = await fetch(`http://${variableValue}/tasks`, {
+      const response = await fetch(`https://${variableValue}/tasks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

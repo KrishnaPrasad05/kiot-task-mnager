@@ -12,7 +12,7 @@ const AssignedOfCetails = ({ route }) => {
 
   const handleUpdateStatus = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/offCamp/${faculty.id}`, {
+      const response = await fetch(`https://${variableValue}/offCamp/${faculty.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

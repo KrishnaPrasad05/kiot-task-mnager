@@ -12,7 +12,7 @@ const AssignedPoolDetails = ({ route }) => {
 
   const handleUpdateStatus = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/pooled/${faculty.id}`, {
+      const response = await fetch(`https://${variableValue}/pooled/${faculty.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

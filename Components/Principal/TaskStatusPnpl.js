@@ -19,7 +19,7 @@ const TaskStatusPnpl = () => {
   
     const fetchPendingCount = async () => {
       try {
-        const response = await fetch(`http://${variableValue}/tasks?status=Pending`);
+        const response = await fetch(`https://${variableValue}/tasks?status=Pending`);
         const jsonData = await response.json();
         setPendingCount(jsonData.length);
       } catch (error) {
@@ -28,7 +28,7 @@ const TaskStatusPnpl = () => {
     };
     const fetchResolvedCount = async () => {
       try {
-        const response = await fetch(`http://${variableValue}/tasks?status=resolved`);
+        const response = await fetch(`https://${variableValue}/tasks?status=resolved`);
         const jsonData = await response.json();
         setResolvedCount(jsonData.length);
       } catch (error) {
@@ -37,7 +37,7 @@ const TaskStatusPnpl = () => {
     };
     const fetchProgressCount = async () => {
       try {
-        const response = await fetch(`http://${variableValue}/tasks?status=on-progress`);
+        const response = await fetch(`https://${variableValue}/tasks?status=on-progress`);
         const jsonData = await response.json();
         setProgressCount(jsonData.length);
       } catch (error) {
@@ -46,7 +46,7 @@ const TaskStatusPnpl = () => {
     };
     const fetchLaterCount = async () => {
       try {
-        const response = await fetch(`http://${variableValue}/tasks?status=later`);
+        const response = await fetch(`https://${variableValue}/tasks?status=later`);
         const jsonData = await response.json();
         setLaterCount(jsonData.length);
       } catch (error) {

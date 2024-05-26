@@ -17,7 +17,7 @@ const ProfileHod = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://${variableValue}/faculty?name=${name}`); // Replace with your server URL
+      const response = await fetch(`https://${variableValue}/faculty?name=${name}`); // Replace with your server URL
       const jsonData = await response.json();
       setData(jsonData);
     } catch (error) {
