@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Button, Ale
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker'; // Import community DateTimePicker
 import AppContext from '../AppContext';
+import { Picker } from '@react-native-picker/picker';
 
 const CCRDetails = ({ route }) => {
   const navigation = useNavigation();
@@ -165,7 +166,7 @@ const CCRDetails = ({ route }) => {
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleDeleteConfirmation}>
-          <Text style={styles.button}>Delete</Text>
+          <Text style={[styles.button,{backgroundColor:'maroon'}]}>Delete</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => setIsModalVisible(true)}>
@@ -189,13 +190,13 @@ const CCRDetails = ({ route }) => {
             placeholder="Enter task name"
           />
 
-          <Text style={styles.modalText}>Assign to:</Text>
+         {/*  <Text style={styles.modalText}>Assign to:</Text>
           <TextInput
             style={styles.input}
             value={updatedValues.assignTo}
             onChangeText={text => setUpdatedValues(prev => ({ ...prev, assignTo: text }))}
             placeholder="Enter name"
-          />
+          /> */}
 
           <Text style={styles.modalText}>Description:</Text>
           <TextInput
@@ -205,17 +206,34 @@ const CCRDetails = ({ route }) => {
             placeholder="Enter description"
           />
 
-          <Text style={styles.modalText}>Priority:</Text>
+          {/* <Text style={styles.modalText}>Priority:</Text>
           <TextInput
             style={styles.input}
             value={updatedValues.priority}
             onChangeText={text => setUpdatedValues(prev => ({ ...prev, priority: text }))}
             placeholder="Enter priority"
-          />
+          /> */}
+
+<Text style={{color:'white',marginBottom:5}}>Priority:</Text>
+        <Picker
+          selectedValue={updatedValues.priority}
+          style={styles.picker}
+          onValueChange={(itemValue, itemIndex) => setUpdatedValues(prev => ({ ...prev, priority: itemValue }))}
+        >
+          <Picker.Item label="High" value="high" />
+          <Picker.Item label="Medium" value="medium" />
+          <Picker.Item label="Low" value="low" />
+        </Picker>
+
+<View style={{display:'flex',alignContent:'center',justifyContent:'space-between',flexDirection:'row',width:'80%'}}>
+
+
+<View style={{display:'flex',alignContent:'center',justifyContent:'space-evenly',flexDirection:'column'}}>
+
 
           <Text style={styles.modalText}>Select date:</Text>
           <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-            <Text style={styles.dateButton}>Select Date</Text>
+            <Text style={styles.dateButton}>Click here</Text>
           </TouchableOpacity>
           {showDatePicker && (
             <DateTimePicker
@@ -225,10 +243,13 @@ const CCRDetails = ({ route }) => {
               onChange={handleDateChange}
             />
           )}
+          </View>
+
+          <View style={{display:'flex',alignContent:'center',justifyContent:'space-between',flexDirection:'column'}}>
 
           <Text style={styles.modalText}>Select time:</Text>
           <TouchableOpacity onPress={() => setShowTimePicker(true)}>
-            <Text style={styles.dateButton}>Select Time</Text>
+            <Text style={styles.dateButton}>Click here</Text>
           </TouchableOpacity>
           {showTimePicker && (
             <DateTimePicker
@@ -238,8 +259,11 @@ const CCRDetails = ({ route }) => {
               onChange={handleTimeChange}
             />
           )}
+          </View>
 
-          <View style={styles.buttonContainer}>
+</View>
+
+          <View style={{display:'flex',alignContent:'center',justifyContent:'space-around',flexDirection:'row',width:'80%',marginTop:30}}>
             <TouchableOpacity style={[styles.button, { backgroundColor: '#024c12' }]} onPress={handleUpdate}>
               <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
@@ -266,6 +290,16 @@ const styles = StyleSheet.create({
   text: {
     marginBottom: 15,
   },
+  
+  picker: {
+    width:'80%',
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 10,
+    backgroundColor: '#D0EFCB',
+    borderColor: 'black',
+  },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -278,10 +312,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     width: 120,
+    alignItems:'center'
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -297,6 +332,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   dateButton: {
+    backgroundColor:'#D0EFCB',
+    padding:10,
+    borderRadius:5,
     color: '#024c12',
     textDecorationLine: 'underline',
     marginBottom: 10,

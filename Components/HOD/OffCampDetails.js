@@ -1,28 +1,42 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Button, Alert, Image, Linking } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Button, Alert, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker'; // Import community DateTimePicker
 import AppContext from '../AppContext';
+import { Picker } from '@react-native-picker/picker';
 
 const OffCampDetails = ({ route }) => {
   const navigation = useNavigation();
   const { faculty } = route.params;
   const { variableValue } = useContext(AppContext);
+
+  // State variables
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [updatedValues, setUpdatedValues] = useState({
-    taskName: faculty.taskName,
+    taskName:faculty.taskName,
+    taskPurpose: faculty.taskPurpose,
     assignTo: faculty.assignTo,
     description: faculty.description,
-    date: new Date(faculty.date),
-    time: new Date(`2000-01-01T${faculty.time}`), // Setting a base date to parse time correctly
+    date: new Date(faculty.date), // Assuming faculty.date is in a parseable date format
+    time: parseTimeString(faculty.time), // Call parseTimeString function here
     priority: faculty.priority,
     status: faculty.status,
     createdAt: faculty.createdAt,
   });
 
+  // Function to parse time string into Date object
+  function parseTimeString(timeString) {
+    const [hours, minutes] = timeString.split(':').map(str => parseInt(str, 10));
+    const date = new Date();
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    return date;
+  }
+
   const [showDatePicker, setShowDatePicker] = useState(false); // State to manage date picker visibility
   const [showTimePicker, setShowTimePicker] = useState(false); // State to manage time picker visibility
 
+  // Date change handler
   const handleDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
     if (selectedDate) {
@@ -33,6 +47,7 @@ const OffCampDetails = ({ route }) => {
     }
   };
 
+  // Time change handler
   const handleTimeChange = (event, selectedTime) => {
     setShowTimePicker(false);
     if (selectedTime) {
@@ -43,14 +58,22 @@ const OffCampDetails = ({ route }) => {
     }
   };
 
+  // Update task handler
   const handleUpdate = async () => {
     try {
+      const formattedDate = updatedValues.date.toISOString().split('T')[0]; // Format date to YYYY-MM-DD
+      const formattedTime = updatedValues.time.toLocaleTimeString('en-US', { hour12: true }); // Format time to HH:mm:ss
+
       const response = await fetch(`https://${variableValue}/offCamp/${faculty.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedValues),
+        body: JSON.stringify({
+          ...updatedValues,
+          date: formattedDate,
+          time: formattedTime,
+        }),
       });
 
       if (response.ok) {
@@ -65,6 +88,7 @@ const OffCampDetails = ({ route }) => {
     }
   };
 
+  // Delete task confirmation
   const handleDeleteConfirmation = () => {
     Alert.alert(
       'Confirmation',
@@ -83,6 +107,7 @@ const OffCampDetails = ({ route }) => {
     );
   };
 
+  // Delete task handler
   const handleDelete = async () => {
     try {
       const response = await fetch(`https://${variableValue}/offCamp/${faculty.id}`, {
@@ -101,15 +126,12 @@ const OffCampDetails = ({ route }) => {
     }
   };
 
+  // Function to open Google Sheets links
   const openGoogleSheet = () => {
-    // Regular expression to match a Google Sheets URL
     const googleSheetRegex = /https?:\/\/docs\.google\.com\/(?:spreadsheets|document)\/d\/\S+/g;
-    
-    // Extracting Google Sheets link from the description
     const description = faculty.description;
     const googleSheetLinks = description.match(googleSheetRegex);
-    
-    // Opening each Google Sheets link
+
     if (googleSheetLinks) {
       googleSheetLinks.forEach(link => {
         Linking.openURL(link);
@@ -119,33 +141,40 @@ const OffCampDetails = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={{color:'grey'}}>Name of the task</Text>
-      <Text style={{marginBottom:15}}>{faculty.taskName}</Text>
-      <Text style={{color:'grey'}}>Resolve By</Text>
-      <Text style={{marginBottom:15}}>{faculty.date} | {faculty.time}</Text>
-      <Text style={{color:'grey'}}>Task created time</Text>
-      <Text style={{marginBottom:15}}>{faculty.createdAt}</Text>  
-      <Text style={{color:'grey'}}>Assigned To</Text>
-      <Text style={{marginBottom:15}}>{faculty.assignTo}</Text>   
-      <Text style={{color:'grey'}}>Open Sheet</Text>
-      <Text style={{ color: '#024c12', backgroundColor:'#D0EFCB',width:130,padding:7,borderRadius:7 }} onPress={openGoogleSheet}>Open Google Sheet</Text>
-      <Text style={{color:'grey'}}>Priority</Text>
-      <Text style={{marginBottom:15}}>{faculty.priority}</Text>
-      <Text style={{color:'grey'}}>Status</Text>
-      <Text style={{marginBottom:15}}>{faculty.status}</Text>
+      <Text style={styles.label}>Name of the task</Text>
+      <Text style={styles.text}>{faculty.taskPurpose}</Text>
       
-      <View style={{display:'flex',alignItems:'center',justifyContent:'space-around',flexDirection:'row'}}>
-        
+      <Text style={styles.label}>Type of the task</Text>
+      <Text style={styles.text}>{faculty.taskName}</Text>
+      
+      <Text style={styles.label}>Resolve By</Text>
+      <Text style={styles.text}>{updatedValues.date.toDateString()} | {updatedValues.time.toLocaleTimeString()}</Text>
+      
+      <Text style={styles.label}>Task created time</Text>
+      <Text style={styles.text}>{faculty.createdAt}</Text>
+      
+      <Text style={[styles.label, { color: '#024c12', backgroundColor: '#D0EFCB', width: 130, padding: 7, borderRadius: 7 }]} onPress={openGoogleSheet}>Open Google Sheet</Text>
+      
+      <Text style={styles.label}>Assigned To</Text>
+      <Text style={styles.text}>{faculty.assignTo}</Text>
+      
+      <Text style={styles.label}>Priority</Text>
+      <Text style={styles.text}>{faculty.priority}</Text>
+      
+      <Text style={styles.label}>Status</Text>
+      <Text style={styles.text}>{faculty.status}</Text>
+
+      <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleDeleteConfirmation}>
-          <Text style={styles.button2}>Delete</Text>
+          <Text style={[styles.button,{backgroundColor:'maroon'}]}>Delete</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-          <Text style={styles.button1}>Update</Text>
+          <Text style={styles.button}>Update</Text>
         </TouchableOpacity>
-      
       </View>
 
+      {/* Modal for update */}
       <Modal
         visible={isModalVisible}
         animationType="slide"
@@ -153,38 +182,58 @@ const OffCampDetails = ({ route }) => {
         onRequestClose={() => setIsModalVisible(false)}
       >
         <View style={styles.modalContainer}>
-          <Text style={{color:'white'}}>Task Name:</Text>
+          <Text style={styles.modalText}>Task Name:</Text>
           <TextInput
             style={styles.input}
-            value={updatedValues.taskName}
-            onChangeText={text => setUpdatedValues(prev => ({ ...prev, taskName: text }))}
+            value={updatedValues.taskPurpose}
+            onChangeText={text => setUpdatedValues(prev => ({ ...prev, taskPurpose: text }))}
             placeholder="Enter task name"
           />
-          <Text style={{color:'white'}}>Assign to:</Text>
+
+         {/*  <Text style={styles.modalText}>Assign to:</Text>
           <TextInput
             style={styles.input}
             value={updatedValues.assignTo}
             onChangeText={text => setUpdatedValues(prev => ({ ...prev, assignTo: text }))}
             placeholder="Enter name"
-          />
-          <Text style={{color:'white'}}>Description:</Text>
+          /> */}
+
+          <Text style={styles.modalText}>Description:</Text>
           <TextInput
             style={styles.input}
             value={updatedValues.description}
             onChangeText={text => setUpdatedValues(prev => ({ ...prev, description: text }))}
-            placeholder="Enter department"
+            placeholder="Enter description"
           />
-          <Text style={{color:'white'}}>Priority:</Text>
+
+          {/* <Text style={styles.modalText}>Priority:</Text>
           <TextInput
             style={styles.input}
             value={updatedValues.priority}
             onChangeText={text => setUpdatedValues(prev => ({ ...prev, priority: text }))}
             placeholder="Enter priority"
-          />
-          <Text style={{color:'white'}}>Select date:</Text>
-          {/* Date Picker */}
+          /> */}
+
+<Text style={{color:'white',marginBottom:5}}>Priority:</Text>
+        <Picker
+          selectedValue={updatedValues.priority}
+          style={styles.picker}
+          onValueChange={(itemValue, itemIndex) => setUpdatedValues(prev => ({ ...prev, priority: itemValue }))}
+        >
+          <Picker.Item label="High" value="high" />
+          <Picker.Item label="Medium" value="medium" />
+          <Picker.Item label="Low" value="low" />
+        </Picker>
+
+<View style={{display:'flex',alignContent:'center',justifyContent:'space-between',flexDirection:'row',width:'80%'}}>
+
+
+<View style={{display:'flex',alignContent:'center',justifyContent:'space-evenly',flexDirection:'column'}}>
+
+
+          <Text style={styles.modalText}>Select date:</Text>
           <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-            <Text style={{ color: 'black', backgroundColor:'#D0EFCB', padding:10, width:315, borderRadius:5 }}>Select Date</Text>
+            <Text style={styles.dateButton}>Click here</Text>
           </TouchableOpacity>
           {showDatePicker && (
             <DateTimePicker
@@ -194,10 +243,13 @@ const OffCampDetails = ({ route }) => {
               onChange={handleDateChange}
             />
           )}
-          <Text style={{color:'white'}}>Select time:</Text>
-          {/* Time Picker */}
+          </View>
+
+          <View style={{display:'flex',alignContent:'center',justifyContent:'space-between',flexDirection:'column'}}>
+
+          <Text style={styles.modalText}>Select time:</Text>
           <TouchableOpacity onPress={() => setShowTimePicker(true)}>
-            <Text style={{ color: 'black', backgroundColor:'#D0EFCB', padding:10, width:315, borderRadius:5 }}>Select Time</Text>
+            <Text style={styles.dateButton}>Click here</Text>
           </TouchableOpacity>
           {showTimePicker && (
             <DateTimePicker
@@ -207,12 +259,17 @@ const OffCampDetails = ({ route }) => {
               onChange={handleTimeChange}
             />
           )}
-          <View style={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'row', marginTop:20}}>
-            <TouchableOpacity style={{backgroundColor:'rgba(2,76,18,1)', padding:10, width:100, borderRadius:10, marginRight:50}} onPress={handleUpdate}>
-              <Text style={{color:'white', textAlign:'center'}}>Save</Text>
+          </View>
+
+</View>
+
+          <View style={{display:'flex',alignContent:'center',justifyContent:'space-around',flexDirection:'row',width:'80%',marginTop:30}}>
+            <TouchableOpacity style={[styles.button, { backgroundColor: '#024c12' }]} onPress={handleUpdate}>
+              <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{backgroundColor:'grey', padding:10, width:100, borderRadius:10}} onPress={() => setIsModalVisible(false)}>
-              <Text style={{color:'white', textAlign:'center'}}>Cancel</Text>
+
+            <TouchableOpacity style={[styles.button, { backgroundColor: 'grey' }]} onPress={() => setIsModalVisible(false)}>
+              <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -226,29 +283,46 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-  button1: {
+  label: {
+    color: 'grey',
+    marginBottom: 5,
+  },
+  text: {
+    marginBottom: 15,
+  },
+  
+  picker: {
+    width:'80%',
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 10,
+    backgroundColor: '#D0EFCB',
+    borderColor: 'black',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 20,
+  },
+  button: {
     backgroundColor: '#024c12',
     color: 'white',
     textAlign: 'center',
     padding: 10,
     borderRadius: 5,
-    marginBottom: 10,
     width: 120,
-  },
-  button2: {
-    backgroundColor: 'red',
-    color: 'white',
-    textAlign: 'center',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-    width: 120,
+    alignItems:'center'
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  modalText: {
+    color: 'white',
+    marginBottom: 5,
   },
   input: {
     backgroundColor: '#D0EFCB',
@@ -256,6 +330,17 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
     borderRadius: 5,
+  },
+  dateButton: {
+    backgroundColor:'#D0EFCB',
+    padding:10,
+    borderRadius:5,
+    color: '#024c12',
+    textDecorationLine: 'underline',
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: 'white',
   },
 });
 
