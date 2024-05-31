@@ -74,8 +74,8 @@ const ViewCCR = ({ route }) => {
         <View style={styles.itemContent}>
           
           <View style={styles.textContainer}>
-            <Text style={styles.name}>{item.taskName}</Text>
-            <View style={{display:'flex',alignItems:'center',justifyContent:'space-between',flexDirection:'row',width:'100%'}}>
+            <Text style={styles.name}>{item.taskPurpose}- {item.assignTo}</Text>
+            <View style={{display:'flex',alignItems:'center',justifyContent:'space-between',flexDirection:'row',width:'100%',flexWrap:'wrap'}}>
             <Text style={{marginRight:10,color:'grey'}}>Resolve By : {item.date} | {item.time}</Text>
             <Text style={styles.department}>⏳{item.status}</Text>
             </View>

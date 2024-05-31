@@ -70,6 +70,7 @@
  import ReportTableOn from './Components/HOD/ReportTableOn';
  import ReportTableOff from './Components/HOD/ReportTableOff';
  import ReportTablePooled from './Components/HOD/ReportTablePooled';
+import AssignCCR1 from './Components/HOD/CCRAssign1';
  
  
  
@@ -109,7 +110,7 @@
    <Stack.Screen name="AssignedTaskHod" component={AssignedTaskHod} />
    <Stack.Screen name="TaskStatusHod" component={TaskStatusHod} />
    <Stack.Screen name="TaskStatusPnpl" component={TaskStatusPnpl} />
-   <Stack.Screen name="AssignCCR" component={AssignCCR} />
+   <Stack.Screen name="AssignCCR" component={AssignCCR1} />
    <Stack.Screen name="CCRStatus" component={CCRStatus} />
    <Stack.Screen name="CompVisitStatus" component={CompVisitStatus} />
    <Stack.Screen name="OnCampStatus" component={OnCampStatus} />

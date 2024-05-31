@@ -55,8 +55,7 @@ const HomePagePnpl = () => {
     </View>
     </TouchableOpacity> */}
 
-
-    <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:'#fafafa',width:"100%",padding:10,marginTop:250}}>
+<View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:'#fafafa',width:"100%",padding:10,marginTop:300}}>
 
     <TouchableOpacity onPress={handleHome}>
       <View style={{backgroundColor:'#D0EFCB',padding:10,borderRadius:5,display:'flex',alignItems:'center',justifyContent:'center'}}>
@@ -81,7 +80,9 @@ const HomePagePnpl = () => {
       </View>
       </TouchableOpacity>
     </View>
+    
 </View>
+
 </ScrollView>
     );
 }

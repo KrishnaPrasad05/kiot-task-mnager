@@ -1,32 +1,48 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, ScrollView, Image, Modal } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+  Modal
+} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
+import CheckBox from '@react-native-community/checkbox'; // Correct import
 import { useNavigation } from '@react-navigation/native';
 import AppContext from '../AppContext';
-import DateTimePicker from '@react-native-community/datetimepicker';
 
-const AssignTaskHod = () => {
+const AssignCCR1 = () => {
   const navigation = useNavigation();
+  const { variableValue, setVariableValue } = useContext(AppContext);
+  const [taskPurpose,setTaskPurpose]= useState('');
   const [taskName, setTaskName] = useState('');
   const [assignTo, setAssignTo] = useState('');
   const [description, setDescription] = useState('');
-  const [date, setDate] = useState(new Date()); // Initialize with current date
-  const [time, setTime] = useState(new Date()); // Initialize with current time
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
   const [priority, setPriority] = useState('medium');
   const [status, setStatus] = useState('Pending');
-  const { variableValue, setVariableValue } = useContext(AppContext);
-  const [facultyList, setFacultyList] = useState([]);
-  const [selectedOption, setSelectedOption] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [facultyList, setFacultyList] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState([]);
+
   useEffect(() => {
     fetch(`https://${variableValue}/faculty`)
       .then(response => response.json())
       .then(data => setFacultyList(data))
       .catch(error => console.error('Error fetching faculty:', error));
-  }, []);
+  }, [variableValue]);
+
+ 
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -56,74 +72,102 @@ const AssignTaskHod = () => {
     setTime(currentTime);
   };
 
-  const handleSaveModal = () => {
-    setAssignTo(selectedOptions.map(option => option.name).join(', '));
-    setModalVisible(false);
-  };
-
-  const handleSave = async () => {
-    // Check if any field is empty
-    if (!taskName || !selectedOption || !description || !date || !time || !priority) {
-      Alert.alert('Error', 'Please fill in all fields');
-      return;
-    }
-
-    const createdAt = new Date().toLocaleString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
-    });
-
-    const taskData = {
-      taskName,
-      assignTo: selectedOption.name,
-      description,
-      date: date.toISOString().split('T')[0], // Ensure date is a Date object
-      time: time.toLocaleTimeString(), // Ensure time is a Date object
-      priority,
-      createdAt,
-      status
-    };
-
+  const handleSaveAssignTo = async () => {
     try {
-      const response = await fetch(`https://${variableValue}/tasks`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(taskData),
+      const requests = selectedOptions.map(async option => {
+        const createdAt = new Date().toLocaleString('en-US', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        });
+        const taskData = {
+          taskName,
+          taskPurpose,
+          assignTo: option.name,
+          description,
+          date: date.toISOString().split('T')[0],
+          time: time.toLocaleTimeString(),
+          priority,
+          createdAt,
+          status
+        };
+
+        let endpoint = '';
+        switch (taskName) {
+          case 'CCR':
+            endpoint = `https://${variableValue}/ccr`;
+            break;
+          case 'Company Visits':
+            endpoint = `https://${variableValue}/compVist`;
+            break;
+          case 'On-Campus Drive':
+            endpoint = `https://${variableValue}/onCamp`;
+            break;
+          case 'Off-Campus Drive':
+            endpoint = `https://${variableValue}/offCamp`;
+            break;
+          case 'Pooled Drive':
+            endpoint = `https://${variableValue}/pooled`;
+            break;
+          default:
+            break;
+        }
+
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(taskData),
+        });
+
+        if (response.ok) {
+          console.log(`Task added successfully for ${option.name}`);
+          return true;
+        } else {
+          console.error(`Failed to add task for ${option.name}`);
+          return false;
+        }
       });
 
-      if (response.ok) {
-        Alert.alert('Success', 'Task added successfully');
-        // Clear input fields and reset form state
+      const results = await Promise.all(requests);
+
+      if (results.every(result => result === true)) {
+        Alert.alert('Success', 'All tasks added successfully');
+        setModalVisible(false);
         setTaskName('');
-        setSelectedOption(null); // Reset assignTo state
+        setTaskPurpose('');
+        setAssignTo('');
         setDescription('');
-        setDate(new Date()); // Reset date state to current date
-        setTime(new Date()); // Reset time state to current time
+        setDate(new Date());
+        setTime(new Date());
         setPriority('medium');
-        setStatus('Pending'); // Reset status state
       } else {
-        Alert.alert('Error', 'Failed to add task');
+        Alert.alert('Error', 'Some tasks failed to add. Please try again.');
       }
     } catch (error) {
-      console.error('Error saving task:', error);
-      Alert.alert('Error', 'Failed to add task. Please try again.');
+      console.error('Error saving tasks:', error);
+      Alert.alert('Error', 'Failed to add tasks. Please try again.');
     }
   };
 
   const handleReset = () => {
-    // Reset all form fields
     setTaskName('');
-    setSelectedOption(null);
+    setTaskPurpose('');
+    setAssignTo('');
     setDescription('');
     setDate(new Date());
     setTime(new Date());
-    setPriority('');
+    setPriority('medium');
+    setSelectedOptions([]);
+  };
+
+  const handleSaveModal = () => {
+    setAssignTo(selectedOptions.map(option => option.name).join(', '));
+    setModalVisible(false);
   };
 
   const handleProfile = () => {
@@ -142,18 +186,41 @@ const AssignTaskHod = () => {
     navigation.navigate('ViewFacultyHod');
   };
 
+  const toggleOption = (option) => {
+    if (selectedOptions.includes(option)) {
+      setSelectedOptions(selectedOptions.filter(item => item !== option));
+    } else {
+      setSelectedOptions([...selectedOptions, option]);
+    }
+  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
+        <Text style={styles.label}>Task Type:</Text>
+        <Picker
+          selectedValue={taskName}
+          style={styles.picker}
+          onValueChange={(itemValue, itemIndex) => setTaskName(itemValue)}
+        >
+          <Picker.Item label="Select below options" value="" />
+          <Picker.Item label="CCR" value="CCR" />
+          <Picker.Item label="Company Visits" value="Company Visits" />
+          <Picker.Item label="On-Campus Drive" value="On-Campus Drive" />
+          <Picker.Item label="Off-Campus Drive" value="Off-Campus Drive" />
+          <Picker.Item label="Pooled Drive" value="Pooled Drive" />
+        </Picker>
+
         <Text style={styles.label}>Task Name:</Text>
         <TextInput
           style={styles.input}
-          value={taskName}
-          onChangeText={text => setTaskName(text)}
-          placeholder="Enter task name"
+          value={taskPurpose}
+          onChangeText={text => setTaskPurpose(text)}
+          placeholder='Enter task name'
+          editable={true}
         />
 
-<Text style={styles.label}>Assign To:</Text>
+        <Text style={styles.label}>Assign To:</Text>
         <TextInput
           style={styles.input}
           value={assignTo}
@@ -204,7 +271,7 @@ const AssignTaskHod = () => {
           numberOfLines={4}
         />
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <View style={{ flex: 1, marginRight: 10 }}>
             <Text style={styles.label}>Date:</Text>
             <TouchableOpacity onPress={showDatePicker}>
@@ -259,11 +326,11 @@ const AssignTaskHod = () => {
           <Picker.Item label="Low" value="low" />
         </Picker>
 
-        <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row' }}>
-          <TouchableOpacity >
-            <Text style={styles.button2} onPress={handleReset}>Reset</Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={handleReset}>
+            <Text style={styles.button2}>Reset</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleSave}>
+          <TouchableOpacity onPress={handleSaveAssignTo}>
             <Text style={styles.button1}>Assign</Text>
           </TouchableOpacity>
         </View>
@@ -298,76 +365,50 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    marginBottom: 5,
+    marginVertical: 7,
   },
   input: {
     height: 40,
     borderWidth: 1,
+    backgroundColor: '#D0EFCB',
+    borderColor: 'black',
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 10,
-    backgroundColor: '#D0EFCB',
-    borderColor: 'black',
   },
   textArea: {
     borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
     backgroundColor: '#D0EFCB',
     borderColor: 'black',
+    borderRadius: 5,
+    padding: 10,
     height: 120,
     textAlignVertical: 'top',
+    marginBottom: 10,
   },
   picker: {
-    height: 40,
+    height: 50,
     borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 10,
     backgroundColor: '#D0EFCB',
     borderColor: 'black',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-    maxHeight: '80%',
-    width: '80%',
-  },
-  optionText: {
-    padding: 10,
-    fontSize: 18,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  bottomMenu: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#fafafa',
-    width: "100%",
-    padding: 10,
-    marginTop: 50,
-  },
-  menuItem: {
-    backgroundColor: '#D0EFCB',
-    padding: 10,
-    width:60,
     borderRadius: 5,
-    display:'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginBottom: 20,
   },
-  menuIcon: {
-    width: 25,
-    height: 25,
+  dateTimeContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  dateTimeInput: {
+    height: 40,
+    borderWidth: 1,
+    backgroundColor: '#D0EFCB',
+    borderColor: 'black',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+    width: 170,
   },
   button1: {
     backgroundColor: '#024c12',
@@ -387,6 +428,51 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: 120,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    width: '80%',
+  },
+  optionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+  },
+  optionText: {
+    marginLeft: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  bottomMenu: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#fafafa',
+    width: '100%',
+    padding: 20,
+    marginTop: 50,
+  },
+  menuItem: {
+    backgroundColor: 'transparent',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  menuIcon: {
+    width: 25,
+    height: 25,
+  },
 });
 
-export default AssignTaskHod;
+export default AssignCCR1;
