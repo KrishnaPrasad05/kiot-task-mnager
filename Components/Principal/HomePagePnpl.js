@@ -37,13 +37,13 @@ const HomePagePnpl = () => {
 <View style={{display:'flex',justifyContent:'center',alignItems:'center',marginTop:50}}>
 
     <TouchableOpacity onPress={handleAssignTask}>
-    <View style={{backgroundColor:'#D0EFCB',padding:30,width:300,display:'flex',justifyContent:'center',alignItems:'center',borderRadius:20,marginBottom:30}}>
+    <View style={{backgroundColor:'#D0EFCB',padding:30,width:300,display:'flex',justifyContent:'center',alignItems:'center',borderRadius:20,marginBottom:30,borderWidth:0.5,borderColor:'black'}}>
     <Image source={require('../../assets/Images/list 1.png')} style={{width:100,height:100}} />
     <Text>Assign Task</Text>
     </View>
     </TouchableOpacity>
     <TouchableOpacity onPress={handleTrackTask}>
-    <View style={{backgroundColor:'#D0EFCB',padding:30,width:300,display:'flex',justifyContent:'center',alignItems:'center',borderRadius:20,marginBottom:30}}>
+    <View style={{backgroundColor:'#D0EFCB',padding:30,width:300,display:'flex',justifyContent:'center',alignItems:'center',borderRadius:20,marginBottom:30,borderWidth:0.5,borderColor:'black'}}>
     <Image source={require('../../assets/Images/status 1.png')} style={{width:100,height:100}} />
     <Text>Track Task</Text>
     </View>

@@ -29,18 +29,18 @@ const CommonLand = () => {
         </View>
        
       <View style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
-      <TouchableOpacity onPress={handlePrincipalLogin} style={{backgroundColor:'#024C12',width:150,padding:10,borderRadius:5,marginTop:50,display:'flex',justifyContent:'center',alignItems:'center'}}>
+      <TouchableOpacity onPress={handlePrincipalLogin} style={{backgroundColor:'#024C12',width:150,padding:10,borderRadius:5,marginTop:30,display:'flex',justifyContent:'center',alignItems:'center'}}>
       <Text style={{color:'white'}}>Director's Login</Text>
     </TouchableOpacity>
-      <TouchableOpacity onPress={handleHodLogin} style={{backgroundColor:'#024C12',width:150,padding:10,borderRadius:5,marginTop:50,display:'flex',justifyContent:'center',alignItems:'center'}}>
+      <TouchableOpacity onPress={handleHodLogin} style={{backgroundColor:'#024C12',width:150,padding:10,borderRadius:5,marginTop:30,display:'flex',justifyContent:'center',alignItems:'center'}}>
       <Text style={{color:'white'}}>CRM/IRM('s) Login</Text>
     </TouchableOpacity>
-        <TouchableOpacity onPress={handleFacLogin} style={{backgroundColor:'#024C12',width:150,padding:10,borderRadius:5,marginTop:50,display:'flex',justifyContent:'center',alignItems:'center'}}>
+        <TouchableOpacity onPress={handleFacLogin} style={{backgroundColor:'#024C12',width:150,padding:10,borderRadius:5,marginTop:30,display:'flex',justifyContent:'center',alignItems:'center'}}>
       <Text style={{color:'white'}}>PO's Login</Text>
     </TouchableOpacity>
       </View>
-      <View style={{marginTop:100,alignItems:'center'}}>
-        <Text style={{color:'black'}}>© 2024 Company Name. All Rights Reserved.</Text>
+      <View style={{marginTop:60,alignItems:'center'}}>
+        <Text style={{color:'black'}}>&copy;KIOT | Developed by : KRISHNA PRASAD S & Team</Text>
         </View>
         </View>
        

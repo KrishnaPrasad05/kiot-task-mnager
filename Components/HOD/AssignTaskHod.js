@@ -63,58 +63,74 @@ const AssignTaskHod = () => {
 
   const handleSave = async () => {
     // Check if any field is empty
-    if (!taskName || !selectedOption || !description || !date || !time || !priority) {
+   /*  console.log(taskName,selectedOption,description,date,time,priority)
+    if (!taskName || !selectedOptions || !description || !date || !time || !priority) {
       Alert.alert('Error', 'Please fill in all fields');
       return;
-    }
+    } */
 
-    const createdAt = new Date().toLocaleString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
-    });
-
-    const taskData = {
-      taskName,
-      assignTo: selectedOption.name,
-      description,
-      date: date.toISOString().split('T')[0], // Ensure date is a Date object
-      time: time.toLocaleTimeString(), // Ensure time is a Date object
-      priority,
-      createdAt,
-      status
-    };
-
+   
     try {
-      const response = await fetch(`https://${variableValue}/tasks`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(taskData),
+      const requests = selectedOptions.map(async option => {
+        const createdAt = new Date().toLocaleString('en-US', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        });
+        const taskData = {
+          taskName,
+        
+          assignTo: option.name,
+          description,
+          date: date.toISOString().split('T')[0],
+          time: time.toLocaleTimeString(),
+          priority,
+          createdAt,
+          status
+        };
+
+        
+
+        const response = await fetch(`https://${variableValue}/tasks`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(taskData),
+        });
+
+        if (response.ok) {
+          console.log(`Task added successfully for ${option.name}`);
+          return true;
+        } else {
+          console.error(`Failed to add task for ${option.name}`);
+          return false;
+        }
       });
 
-      if (response.ok) {
-        Alert.alert('Success', 'Task added successfully');
-        // Clear input fields and reset form state
+      const results = await Promise.all(requests);
+
+      if (results.every(result => result === true)) {
+        Alert.alert('Success', 'All tasks added successfully');
+        setModalVisible(false);
         setTaskName('');
-        setSelectedOption(null); // Reset assignTo state
+        
+        setAssignTo('');
         setDescription('');
-        setDate(new Date()); // Reset date state to current date
-        setTime(new Date()); // Reset time state to current time
+        setDate(new Date());
+        setTime(new Date());
         setPriority('medium');
-        setStatus('Pending'); // Reset status state
       } else {
-        Alert.alert('Error', 'Failed to add task');
+        Alert.alert('Error', 'Some tasks failed to add. Please try again.');
       }
     } catch (error) {
-      console.error('Error saving task:', error);
-      Alert.alert('Error', 'Failed to add task. Please try again.');
+      console.error('Error saving tasks:', error);
+      Alert.alert('Error', 'Failed to add tasks. Please try again.');
     }
-  };
+  }
 
   const handleReset = () => {
     // Reset all form fields
@@ -254,6 +270,7 @@ const AssignTaskHod = () => {
           style={styles.picker}
           onValueChange={(itemValue, itemIndex) => setPriority(itemValue)}
         >
+          <Picker.Item label="Select any of options below" value="0" />
           <Picker.Item label="High" value="high" />
           <Picker.Item label="Medium" value="medium" />
           <Picker.Item label="Low" value="low" />

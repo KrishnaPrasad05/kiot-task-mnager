@@ -20,7 +20,7 @@ const AssignTaskPnpl = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
-
+  const [selectedOptions, setSelectedOptions] = useState([]);
   useEffect(() => {
     fetch(`https://${variableValue}/faculty`)
       .then(response => response.json())
@@ -56,60 +56,81 @@ const AssignTaskPnpl = () => {
     setTime(currentTime);
   };
 
+  const handleSaveModal = () => {
+    setAssignTo(selectedOptions.map(option => option.name).join(', '));
+    setModalVisible(false);
+  };
+
   const handleSave = async () => {
     // Check if any field is empty
-    if (!taskName || !selectedOption || !description || !date || !time || !priority) {
+   /*  console.log(taskName,selectedOption,description,date,time,priority)
+    if (!taskName || !selectedOptions || !description || !date || !time || !priority) {
       Alert.alert('Error', 'Please fill in all fields');
       return;
-    }
+    } */
 
-    const createdAt = new Date().toLocaleString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
-    });
-
-    const taskData = {
-      taskName,
-      assignTo: selectedOption.name,
-      description,
-      date: date.toISOString().split('T')[0], // Ensure date is a Date object
-      time: time.toLocaleTimeString(), // Ensure time is a Date object
-      priority,
-      createdAt,
-      status
-    };
-
+   
     try {
-      const response = await fetch(`https://${variableValue}/tasks`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(taskData),
+      const requests = selectedOptions.map(async option => {
+        const createdAt = new Date().toLocaleString('en-US', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        });
+        const taskData = {
+          taskName,
+        
+          assignTo: option.name,
+          description,
+          date: date.toISOString().split('T')[0],
+          time: time.toLocaleTimeString(),
+          priority,
+          createdAt,
+          status
+        };
+
+        
+
+        const response = await fetch(`https://${variableValue}/tasks`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(taskData),
+        });
+
+        if (response.ok) {
+          console.log(`Task added successfully for ${option.name}`);
+          return true;
+        } else {
+          console.error(`Failed to add task for ${option.name}`);
+          return false;
+        }
       });
 
-      if (response.ok) {
-        Alert.alert('Success', 'Task added successfully');
-        // Clear input fields and reset form state
+      const results = await Promise.all(requests);
+
+      if (results.every(result => result === true)) {
+        Alert.alert('Success', 'All tasks added successfully');
+        setModalVisible(false);
         setTaskName('');
-        setSelectedOption(null); // Reset assignTo state
+        
+        setAssignTo('');
         setDescription('');
-        setDate(new Date()); // Reset date state to current date
-        setTime(new Date()); // Reset time state to current time
+        setDate(new Date());
+        setTime(new Date());
         setPriority('medium');
-        setStatus('Pending'); // Reset status state
       } else {
-        Alert.alert('Error', 'Failed to add task');
+        Alert.alert('Error', 'Some tasks failed to add. Please try again.');
       }
     } catch (error) {
-      console.error('Error saving task:', error);
-      Alert.alert('Error', 'Failed to add task. Please try again.');
+      console.error('Error saving tasks:', error);
+      Alert.alert('Error', 'Failed to add tasks. Please try again.');
     }
-  };
+  }
 
   const handleReset = () => {
     // Reset all form fields
@@ -148,28 +169,42 @@ const AssignTaskPnpl = () => {
           placeholder="Enter task name"
         />
 
-        <Text style={styles.label}>Assign To:</Text>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Text style={styles.input}>{selectedOption ? selectedOption.name : 'Select assignee'}</Text>
-        </TouchableOpacity>
+<Text style={styles.label}>Assign To:</Text>
+        <TextInput
+          style={styles.input}
+          value={assignTo}
+          placeholder="Enter assignee name"
+          editable={false} // To make TextInput read-only
+        />
+      
 
+
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <Text style={styles.button1}>Select Assignee</Text>
+          </TouchableOpacity>
         <Modal visible={modalVisible} animationType="slide" transparent={true}>
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <Text>Select Assignee:</Text>
-              <ScrollView>
-                {facultyList.map(faculty => (
-                  <TouchableOpacity
-                    key={faculty.id}
-                    onPress={() => {
-                      setSelectedOption(faculty);
-                      setModalVisible(false);
-                    }}
-                  >
-                    <Text style={styles.optionText}>{faculty.name}</Text>
-                  </TouchableOpacity>
-                ))}
-              </ScrollView>
+              {facultyList.map(faculty => (
+                <TouchableOpacity
+                  key={faculty.id}
+                  onPress={() =>
+                    setSelectedOptions(prevOptions =>
+                      prevOptions.some(option => option.id === faculty.id)
+                        ? prevOptions.filter(option => option.id !== faculty.id)
+                        : [...prevOptions, faculty]
+                    )
+                  }
+                >
+                  <Text >
+                    {selectedOptions.some(option => option.id === faculty.id) ? '☑' : '☐'}{' '}
+                    {faculty.name}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+
+              <Button title="Save" onPress={handleSaveModal} />
               <Button title="Cancel" onPress={() => setModalVisible(false)} />
             </View>
           </View>
@@ -235,6 +270,7 @@ const AssignTaskPnpl = () => {
           style={styles.picker}
           onValueChange={(itemValue, itemIndex) => setPriority(itemValue)}
         >
+          <Picker.Item label="Select any of options below" value="0" />
           <Picker.Item label="High" value="high" />
           <Picker.Item label="Medium" value="medium" />
           <Picker.Item label="Low" value="low" />
@@ -249,7 +285,7 @@ const AssignTaskPnpl = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
+        <View style={styles.bottomMenu}>
           <TouchableOpacity onPress={handleHome}>
             <Image source={require('../../assets/Images/home.png')} style={styles.menuIcon} />
           </TouchableOpacity>
@@ -328,33 +364,45 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
   },
+  bottomMenu: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#fafafa',
+    width: "100%",
+    padding: 10,
+    marginTop: 50,
+  },
+  menuItem: {
+    backgroundColor: '#D0EFCB',
+    padding: 10,
+    width:60,
+    borderRadius: 5,
+    display:'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   menuIcon: {
     width: 25,
     height: 25,
   },
-  menuItem: {
-    alignItems: 'center',
-  },
   button1: {
-    backgroundColor: '#ADD8E6',
-    color: 'black',
-    fontSize: 20,
-    fontWeight: 'bold',
-    padding: 10,
+    backgroundColor: '#024c12',
+    color: 'white',
     textAlign: 'center',
-    width: 200,
-    borderRadius: 30,
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    width: 120,
   },
   button2: {
-    backgroundColor: '#ADD8E6',
+    backgroundColor: 'lightgrey',
     color: 'black',
-    fontSize: 20,
-    fontWeight: 'bold',
-    padding: 10,
     textAlign: 'center',
-    width: 200,
-    borderRadius: 30,
-    marginRight: 20,
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    width: 120,
   },
 });
 

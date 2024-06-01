@@ -94,14 +94,23 @@ import AssignCCR1 from './Components/HOD/CCRAssign1';
    <Stack.Screen name="ProfileFac" component={ProfileFac} />
    <Stack.Screen name="AssignedTask" component={AssignedTask} />
    <Stack.Screen name="AssignedTaskDetails" component={AssignedTaskDetails} />
-   <Stack.Screen name="HomePageHod" component={HomePageHod} options={{ headerShown: false }}/>
+   <Stack.Screen name="HomePageHod" component={HomePageHod}  options={{ 
+    headerShown: true,
+    headerLeft: () => null,
+  }} />
    <Stack.Screen name="CommonLand" component={CommonLand} options={{ headerShown: false }}/>
-   <Stack.Screen name="HomePageFac" component={HomePageFac} />
+   <Stack.Screen name="HomePageFac" component={HomePageFac}  options={{ 
+    headerShown: true,
+    headerLeft: () => null,
+  }} />
    <Stack.Screen name="LoginPageFac" component={LoginPageFac} options={{ headerShown: false }}/>
    <Stack.Screen name="AddFacultyPnpl" component={AddFacultyPnpl} />
    <Stack.Screen name="AssignTaskPnpl" component={AssignTaskPnpl} />
    <Stack.Screen name="FacultyDetailsPnpl" component={FacultyDetailsPnpl} />
-   <Stack.Screen name="HomePagePnpl" component={HomePagePnpl} options={{ headerShown: false }}/>
+   <Stack.Screen name="HomePagePnpl" component={HomePagePnpl}  options={{ 
+    headerShown: true,
+    headerLeft: () => null,
+  }} />
    <Stack.Screen name="LoginPnpl" component={LoginPnpl} options={{ headerShown: false }}/>
    <Stack.Screen name="ProfilePnpl" component={ProfilePnpl} />
    <Stack.Screen name="TaskDetailsPnpl" component={TaskDetailsPnpl} />

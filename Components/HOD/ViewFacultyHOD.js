@@ -80,6 +80,9 @@ const ViewFacultyHod = () => {
   return (
     <ScrollView>
     <View style={styles.container}>
+    <View style={{backgroundColor:'#024c12',padding:5,margin:10,borderWidth:0.5,borderColor:'black',borderRadius:5}}>
+        <Text style={{color:'#fff',fontSize:20,textAlign:'center'}}>Task Status : {point}</Text>
+      </View>
       <FlatList
         data={data}
         renderItem={renderFacultyItem}
@@ -124,7 +127,7 @@ const ViewFacultyHod = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40,
+    paddingTop: 20,
     paddingHorizontal: 0,
   },
   itemContainer: {

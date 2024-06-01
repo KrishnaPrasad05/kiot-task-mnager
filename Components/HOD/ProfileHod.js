@@ -173,7 +173,7 @@ navigation.navigate('LoginHod')
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40,
+    paddingTop: 10,
    
   },
   itemContainer: {
@@ -187,10 +187,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    marginBottom:30
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+    marginBottom:10
   },
   textContainer: {
     marginLeft: 20,

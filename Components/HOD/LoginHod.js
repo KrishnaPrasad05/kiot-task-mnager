@@ -69,7 +69,8 @@ const LoginHod = () => {
             
         <Image source={require('../../assets/Images/kiotLogo.png')} style={{borderRadius:10}} />
         </View>
-        <View style={{display:'flex',alignItems:'center',justifyContent:'center',marginTop:60}}>
+        <View style={{display:'flex',alignItems:'center',justifyContent:'center',marginTop:30}}>
+        <Text style={{color:'#024C12',marginBottom:10,fontSize:15}}>CRM/IRM 's Login</Text>
         <View style={{display:'flex',flexDirection:'row',backgroundColor:'#D0EFCB',width:'80%',borderWidth: 1,
     borderColor: 'black',borderRadius:10,padding:2}}>
             <View style={{backgroundColor:'#D9D9D9',padding:7,borderRadius:10, borderWidth: 1,
@@ -133,7 +134,7 @@ const LoginHod = () => {
     </TouchableOpacity>
         </View>
         <View style={{marginTop:100,alignItems:'center'}}>
-        <Text style={{color:'black'}}>© 2024 Company Name. All Rights Reserved.</Text>
+        <Text style={{color:'black'}}>&copy;KIOT | Developed by : KRISHNA PRASAD S & Team</Text>
         </View>
     </View>
   );

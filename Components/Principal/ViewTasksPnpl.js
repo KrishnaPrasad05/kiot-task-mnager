@@ -3,7 +3,7 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, RefreshContr
 import { useNavigation } from '@react-navigation/native';
 import AppContext from '../AppContext';
 
-const ViewTasksHod = ({ route }) => {
+const ViewTasksPnpl = ({ route }) => {
   const [data, setData] = useState([]);
   const [refreshing, setRefreshing] = useState(false); // State for refreshing
   const navigation = useNavigation();
@@ -73,11 +73,12 @@ const ViewTasksHod = ({ route }) => {
       <TouchableOpacity style={styles.itemContainer} onPress={() => handleItemPress(item)}>
         <View style={styles.itemContent}>
           
-          <View style={styles.textContainer}>
-            <Text style={styles.name}>{item.taskName}</Text>
-            <View style={{display:'flex',alignItems:'center',justifyContent:'space-between',flexDirection:'row',width:'100%'}}>
+        <View style={styles.textContainer}>
+            <Text style={styles.name}>{item.taskName} </Text>
+            <Text style={{fontSize:15}}>{item.assignTo}</Text>
+            <View style={{display:'flex',alignItems:'center',justifyContent:'space-between',flexDirection:'row',width:'100%',flexWrap:'wrap'}}>
             <Text style={{marginRight:10,color:'grey'}}>Resolve By : {item.date} | {item.time}</Text>
-            <Text style={styles.department}>⏳{item.status}</Text>
+            <Text style={styles.department}>⏳{item.priority}</Text>
             </View>
             
           </View>
@@ -90,6 +91,9 @@ const ViewTasksHod = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <View style={{backgroundColor:'#024c12',padding:5,margin:10,borderWidth:0.5,borderColor:'black',borderRadius:5}}>
+        <Text style={{color:'#fff',fontSize:20,textAlign:'center'}}>Task Status : {point}</Text>
+      </View>
       <FlatList
         data={filteredData}
         renderItem={renderFacultyItem}
@@ -135,7 +139,7 @@ const ViewTasksHod = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40,
+    paddingTop: 10,
     
   },
   itemContainer: {
@@ -170,4 +174,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ViewTasksHod;
+export default ViewTasksPnpl;
