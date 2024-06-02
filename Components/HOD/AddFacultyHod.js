@@ -146,7 +146,7 @@ const AddFacultyHod = () => {
         <Text style={styles.button2} onPress={handleReset}>Reset</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleSubmit}>
-        <Text style={styles.button1}>Update</Text>
+        <Text style={styles.button1}>Add</Text>
       </TouchableOpacity>
      </View>
 

@@ -97,7 +97,7 @@ const ViewTasksPnpl = ({ route }) => {
       });
 
       if (response.ok) {
-        Alert.alert('Success', 'Task deleted successfully');
+        
         onRefresh();
       } else {
         Alert.alert('Error', 'Failed to delete task');

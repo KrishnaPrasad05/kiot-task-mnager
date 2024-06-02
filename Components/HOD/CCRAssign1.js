@@ -21,6 +21,7 @@ const AssignCCR1 = () => {
   const navigation = useNavigation();
   const { variableValue, setVariableValue } = useContext(AppContext);
   const [taskPurpose,setTaskPurpose]= useState('');
+  const [note,setNote]= useState('');
   const [taskName, setTaskName] = useState('');
   const [assignTo, setAssignTo] = useState('');
   const [description, setDescription] = useState('');
@@ -75,6 +76,7 @@ const AssignCCR1 = () => {
   const handleSaveAssignTo = async () => {
     try {
       const requests = selectedOptions.map(async option => {
+        
         const createdAt = new Date().toLocaleString('en-US', {
           year: 'numeric',
           month: '2-digit',
@@ -87,6 +89,7 @@ const AssignCCR1 = () => {
           taskName,
           taskPurpose,
           assignTo: option.name,
+          note,
           description,
           date: date.toISOString().split('T')[0],
           time: time.toLocaleTimeString(),
@@ -116,6 +119,8 @@ const AssignCCR1 = () => {
             break;
         }
 
+       
+
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: {
@@ -134,13 +139,19 @@ const AssignCCR1 = () => {
       });
 
       const results = await Promise.all(requests);
+      if(!taskName|| !taskPurpose|| !assignTo|| !note|| !description|| !date|| !time|| !priority|| !status){
+        Alert.alert('Error', 'Fill the missing fields');
+      }
+      else{
 
+      
       if (results.every(result => result === true)) {
         Alert.alert('Success', 'All tasks added successfully');
         setModalVisible(false);
         setTaskName('');
         setTaskPurpose('');
         setAssignTo('');
+        setNote('');
         setDescription('');
         setDate(new Date());
         setTime(new Date());
@@ -148,6 +159,7 @@ const AssignCCR1 = () => {
       } else {
         Alert.alert('Error', 'Some tasks failed to add. Please try again.');
       }
+    }
     } catch (error) {
       console.error('Error saving tasks:', error);
       Alert.alert('Error', 'Failed to add tasks. Please try again.');
@@ -158,6 +170,7 @@ const AssignCCR1 = () => {
     setTaskName('');
     setTaskPurpose('');
     setAssignTo('');
+    setNote('');
     setDescription('');
     setDate(new Date());
     setTime(new Date());
@@ -261,14 +274,23 @@ const AssignCCR1 = () => {
           </View>
         </Modal>
 
-        <Text style={styles.label}>Description:</Text>
+        <Text style={styles.label}>Remarks:</Text>
+        <TextInput
+          style={styles.textArea}
+          value={note}
+          onChangeText={text => setNote(text)}
+          placeholder="Enter any note"
+          multiline={true}
+          numberOfLines={3}
+        />
+        <Text style={styles.label}>Link:</Text>
         <TextInput
           style={styles.textArea}
           value={description}
           onChangeText={text => setDescription(text)}
-          placeholder="Enter description"
+          placeholder="Enter link for sheets or docs"
           multiline={true}
-          numberOfLines={4}
+          numberOfLines={3}
         />
 
 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -345,7 +367,7 @@ const AssignCCR1 = () => {
           <TouchableOpacity onPress={handleView}>
             <View style={styles.menuItem}>
               <Image source={require('../../assets/Images/list.png')} style={styles.menuIcon} />
-              <Text>View</Text>
+              
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleProfile}>
@@ -382,7 +404,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 5,
     padding: 10,
-    height: 120,
+    height: 100,
     textAlignVertical: 'top',
     marginBottom: 10,
   },

@@ -113,6 +113,10 @@ const AssignTaskHod = () => {
 
       const results = await Promise.all(requests);
 
+      if(!taskName|| !assignTo|| !description|| !date|| !time|| !priority|| !status){
+        Alert.alert('Error', 'Fill the missing fields');
+      } 
+      else{
       if (results.every(result => result === true)) {
         Alert.alert('Success', 'All tasks added successfully');
         setModalVisible(false);
@@ -126,6 +130,7 @@ const AssignTaskHod = () => {
       } else {
         Alert.alert('Error', 'Some tasks failed to add. Please try again.');
       }
+    }
     } catch (error) {
       console.error('Error saving tasks:', error);
       Alert.alert('Error', 'Failed to add tasks. Please try again.');

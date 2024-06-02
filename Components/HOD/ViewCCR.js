@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, RefreshControl } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, RefreshControl,Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AppContext from '../AppContext';
 
@@ -67,10 +67,49 @@ const ViewCCR = ({ route }) => {
     return dateTimeA - dateTimeB;
   });
 
+
+  
+  const handleDeleteConfirmation = (item) => {
+    Alert.alert(
+      'Confirmation',
+      'Are you sure you want to delete?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => handleDelete(item),
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  // Delete task handler
+  const handleDelete = async (item) => {
+    try {
+      const response = await fetch(`https://${variableValue}/ccr/${item.id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+       
+        onRefresh();
+      } else {
+        Alert.alert('Error', 'Failed to delete task');
+      }
+    } catch (error) {
+      console.error('Error deleting task:', error);
+      Alert.alert('Error', 'Failed to delete task. Please try again later');
+    }
+  };
+
   const renderFacultyItem = ({ item }) => {
     console.log('Rendering item:', item); // Log the item object
     return (
-      <TouchableOpacity style={styles.itemContainer} onPress={() => handleItemPress(item)}>
+      <TouchableOpacity style={styles.itemContainer} onPress={() => handleItemPress(item)} onLongPress={() => handleDeleteConfirmation(item)}>
         <View style={styles.itemContent}>
           
         <View style={styles.textContainer}>
@@ -122,7 +161,7 @@ const ViewCCR = ({ route }) => {
   <TouchableOpacity onPress={handleView}>
   <View style={{backgroundColor:'transparent',padding:10,borderRadius:5,display:'flex',alignItems:'center',justifyContent:'center',width:60,height:60}}>
   <Image source={require('../../assets/Images/list.png')} style={{width:25,height:25}} />
-  <Text>View</Text>
+  
   </View>
   </TouchableOpacity>
   <TouchableOpacity onPress={handleProfile}>

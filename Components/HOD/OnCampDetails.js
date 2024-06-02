@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Button, Alert, Linking } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Button, Alert, Linking, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker'; // Import community DateTimePicker
 import AppContext from '../AppContext';
@@ -16,6 +16,7 @@ const OnCampDetails = ({ route }) => {
     taskName:faculty.taskName,
     taskPurpose: faculty.taskPurpose,
     assignTo: faculty.assignTo,
+    note: faculty.note,
     description: faculty.description,
     date: new Date(faculty.date), // Assuming faculty.date is in a parseable date format
     time: parseTimeString(faculty.time), // Call parseTimeString function here
@@ -128,7 +129,7 @@ const OnCampDetails = ({ route }) => {
 
   // Function to open Google Sheets links
   const openGoogleSheet = () => {
-    const googleSheetRegex = /https?:\/\/docs\.google\.com\/(?:spreadsheets|document)\/d\/\S+/g;
+   /*  const googleSheetRegex = /https?:\/\/docs\.google\.com\/(?:spreadsheets|document)\/d\/\S+/g;
     const description = faculty.description;
     const googleSheetLinks = description.match(googleSheetRegex);
 
@@ -136,10 +137,15 @@ const OnCampDetails = ({ route }) => {
       googleSheetLinks.forEach(link => {
         Linking.openURL(link);
       });
-    }
+    } */
+    const description = faculty.description;
+    Linking.openURL(description);
   };
 
   return (
+    <ScrollView>
+
+    
     <View style={styles.container}>
       <Text style={styles.label}>Name of the task</Text>
       <Text style={styles.text}>{faculty.taskPurpose}</Text>
@@ -152,8 +158,11 @@ const OnCampDetails = ({ route }) => {
       
       <Text style={styles.label}>Task created time</Text>
       <Text style={styles.text}>{faculty.createdAt}</Text>
-      
-      <Text style={[styles.label, { color: '#024c12', backgroundColor: '#D0EFCB', width: 130, padding: 7, borderRadius: 7 }]} onPress={openGoogleSheet}>Open Google Sheet</Text>
+
+      <Text style={styles.label}>Remarks</Text>
+      <Text style={styles.text}>{faculty.note}</Text>
+      <Text style={styles.label}>Link</Text>
+      <Text style={[styles.label, { color: '#024c12', backgroundColor: '#D0EFCB', width: 130, padding: 7, borderRadius: 7 }]} onPress={openGoogleSheet}>Open activity Link</Text>
       
       <Text style={styles.label}>Assigned To</Text>
       <Text style={styles.text}>{faculty.assignTo}</Text>
@@ -198,7 +207,14 @@ const OnCampDetails = ({ route }) => {
             placeholder="Enter name"
           /> */}
 
-          <Text style={styles.modalText}>Description:</Text>
+          <Text style={styles.modalText}>Remarks:</Text>
+          <TextInput
+            style={styles.input}
+            value={updatedValues.note}
+            onChangeText={text => setUpdatedValues(prev => ({ ...prev, note: text }))}
+            placeholder="Enter any note"
+          />
+          <Text style={styles.modalText}>Link:</Text>
           <TextInput
             style={styles.input}
             value={updatedValues.description}
@@ -275,6 +291,7 @@ const OnCampDetails = ({ route }) => {
         </View>
       </Modal>
     </View>
+    </ScrollView>
   );
 };
 
@@ -288,7 +305,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   text: {
-    marginBottom: 15,
+    marginBottom: 5,
   },
   
   picker: {

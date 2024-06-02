@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { View, Button, ScrollView, TouchableOpacity,Text } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Button, ScrollView, TouchableOpacity,Text, Alert } from 'react-native';
 import { Table, Row } from 'react-native-table-component';
 import * as Sharing from 'expo-sharing';
 import * as FileSystem from 'expo-file-system';
+import AppContext from '../AppContext';
 
 const ReportTablePooled = () => {
   const [tableData, setTableData] = useState(null);
   const [columns, setColumns] = useState([]);
+  const { variableValue, setVariableValue } = useContext(AppContext);
 
   const fetchData = async () => {
     try {
-      const response = await fetch('https://sumptuous-six-amazonsaurus.glitch.me/pooled');
+      const response = await fetch(`https://${variableValue}/pooled`);
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
@@ -34,8 +36,8 @@ const ReportTablePooled = () => {
 
   const downloadAndShareCSV = async () => {
     if (!tableData) {
-      console.error('No data available to share.');
-      return;
+       Alert.alert('Error','No data available to share.');
+      return; 
     }
 
     const csvData = tableData.map(row => columns.map(col => row[col]).join(',')).join('\n');

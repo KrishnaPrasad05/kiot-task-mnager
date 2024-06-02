@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Button, ScrollView, TouchableOpacity,Text } from 'react-native';
 import { Table, Row } from 'react-native-table-component';
 import * as Sharing from 'expo-sharing';
 import * as FileSystem from 'expo-file-system';
-
+import AppContext from '../AppContext';
 const ReportTable = () => {
   const [tableData, setTableData] = useState(null);
   const [columns, setColumns] = useState([]);
+  const { variableValue, setVariableValue } = useContext(AppContext);
 
   const fetchData = async () => {
     try {
-      const response = await fetch('https://sumptuous-six-amazonsaurus.glitch.me/ccr');
+      const response = await fetch(`https://${variableValue}/ccr`);
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
