@@ -71,6 +71,7 @@
  import ReportTableOff from './Components/HOD/ReportTableOff';
  import ReportTablePooled from './Components/HOD/ReportTablePooled';
 import AssignCCR1 from './Components/HOD/CCRAssign1';
+import About from './Components/About';
  
  
  
@@ -151,6 +152,7 @@ import AssignCCR1 from './Components/HOD/CCRAssign1';
    <Stack.Screen name="ReportTableOn" component={ReportTableOn} />
    <Stack.Screen name="ReportTableOff" component={ReportTableOff} />
    <Stack.Screen name="ReportTablePooled" component={ReportTablePooled} />
+   <Stack.Screen name="About" component={About} />
  
  </Stack.Navigator> 
  

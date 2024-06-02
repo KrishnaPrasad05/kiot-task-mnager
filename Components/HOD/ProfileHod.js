@@ -87,6 +87,9 @@ const ProfileHod = () => {
   const handleLogout = () => {
 navigation.navigate('LoginHod')
   }
+  const handleAbout = () => {
+navigation.navigate('About')
+  }
   const renderFacultyItem = ({ item }) => {
     return (
       <ScrollView>
@@ -117,9 +120,14 @@ navigation.navigate('LoginHod')
         <Text style={styles.label}>Password</Text>
         <Text style={styles.text}>{item.password}</Text>
       </View>
+      <View style={{display:'flex',justifyContent:'space-around',alignItems:'center',flexDirection:'row'}}>
       <TouchableOpacity style={{backgroundColor:'grey',padding:10,width:100,borderRadius:10,margin:10}} onPress={handleLogout}>
         <Text style={{color:'white',textAlign:'center'}}>Logout</Text>
       </TouchableOpacity> 
+      <TouchableOpacity style={{backgroundColor:'#024C12',padding:10,width:100,borderRadius:10,margin:10}} onPress={handleAbout}>
+        <Text style={{color:'white',textAlign:'center'}}>About Us</Text>
+      </TouchableOpacity> 
+      </View>
 
 
       <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:'#fafafa',width:"100%",padding:10,marginTop:100}}>

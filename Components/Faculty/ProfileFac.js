@@ -66,9 +66,12 @@ const ProfileFac = () => {
   const handleLogout = () => {
 navigation.navigate('LoginPageFac')
   }
+  const handleAbout = () => {
+navigation.navigate('About')
+  }
   const renderFacultyItem = ({ item }) => {
     return (
-  <View>       
+  <View style={{padding:10}}>       
    <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Image
           source={{ uri: item.profImg }}
@@ -95,9 +98,14 @@ navigation.navigate('LoginPageFac')
         <Text style={styles.label}>Password</Text>
         <Text style={styles.text}>{item.password}</Text>
       </View>
-      <TouchableOpacity style={{backgroundColor:'grey',padding:10,width:100,borderRadius:10}} onPress={handleLogout}>
+      <View style={{display:'flex',justifyContent:'space-around',alignItems:'center',flexDirection:'row'}}>
+      <TouchableOpacity style={{backgroundColor:'grey',padding:10,width:100,borderRadius:10,margin:10}} onPress={handleLogout}>
         <Text style={{color:'white',textAlign:'center'}}>Logout</Text>
       </TouchableOpacity> 
+      <TouchableOpacity style={{backgroundColor:'#024C12',padding:10,width:100,borderRadius:10,margin:10}} onPress={handleAbout}>
+        <Text style={{color:'white',textAlign:'center'}}>About Us</Text>
+      </TouchableOpacity> 
+      </View> 
       </View>
 
     );
