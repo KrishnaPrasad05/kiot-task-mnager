@@ -49,7 +49,7 @@ const AssignedTaskHod = () => {
   
 
   const handleItemPress = (item) => {
-    navigation.navigate('AssignedTaskDetails', { faculty: item });
+    navigation.navigate('AssignedTaskDetailsHod', { faculty: item });
   };
 
   const onRefresh = async () => {
@@ -69,8 +69,8 @@ const AssignedTaskHod = () => {
         <View style={styles.itemContent}>
           <View style={styles.textContainer}>
             <Text style={styles.name}>{item.taskName}</Text>
-            <View style={{display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
-              <Text style={{marginRight:100,color:'grey'}}>{item.date} | {item.time}</Text>
+            <View style={{display:'flex',alignItems:'center',justifyContent:'space-between',flexDirection:'row',width:'100%',flexWrap:'wrap'}}>
+              <Text style={{color:'grey'}}>Resolve By : {item.date} | {item.time}</Text>
               <Text style={styles.department}>{item.status}</Text>
             </View>
           </View>
@@ -96,7 +96,7 @@ const AssignedTaskHod = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40,
+    paddingTop: 20,
     paddingHorizontal: 10,
   },
   itemContainer: {
@@ -104,6 +104,8 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 10,
     marginBottom: 10,
+    borderWidth:0.5,
+    borderColor:'black',
   },
   itemContent: {
     flexDirection: 'row',
@@ -114,6 +116,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 18,
+    color:'#024c12'
   },
   department: {
     color: 'grey',

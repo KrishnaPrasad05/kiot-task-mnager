@@ -7,13 +7,14 @@ const AddFacultyPnpl = () => {
   const [name, setName] = useState('');
   const [profImg, setprofImg] = useState('');
   const [department, setDepartment] = useState('');
-  const [experience, setExperience] = useState('');
+  const [role, setRole] = useState('');
+  const [mob, setmob] = useState('');
   const [mailid, setMailId] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { variableValue, setVariableValue } = useContext(AppContext);
   const handleSubmit = async () => {
-    if (!name || !department || !experience || !mailid || !username || !password || !profImg) {
+    if (!name || !department || !mob || !mailid || !username || !password || !profImg || !role) {
       Alert.alert('Error', 'Please fill in all fields');
       return;
     }
@@ -24,16 +25,17 @@ const AddFacultyPnpl = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, department, experience, mailid, username, password,profImg }),
+        body: JSON.stringify({ name, department, mob, mailid, username, password,profImg,role }),
       });
 
       if (response.ok) {
         Alert.alert('Success', 'User added successfully');
-        navigation.navigate('ViewFacultyHod');
+        navigation.navigate('HomePagePnpl');
         // Clear input fields
         setName('');
         setDepartment('');
-        setExperience('');
+        setRole('');
+        setmob('');
         setMailId('');
         setUsername('');
         setPassword('');
@@ -51,7 +53,8 @@ const AddFacultyPnpl = () => {
     // Reset all form fields
     setName('');
         setDepartment('');
-        setExperience('');
+        setRole('');
+        setmob('');
         setMailId('');
         setUsername('');
         setPassword('');
@@ -100,12 +103,19 @@ const AddFacultyPnpl = () => {
         onChangeText={text => setDepartment(text)}
         placeholder="Enter department"
       />
-      <Text style={styles.label}>Experience:</Text>
+      <Text style={styles.label}>Role:</Text>
       <TextInput
         style={styles.input}
-        value={experience}
-        onChangeText={text => setExperience(text)}
-        placeholder="Enter experience"
+        value={role}
+        onChangeText={text => setRole(text)}
+        placeholder="Enter role"
+      />
+      <Text style={styles.label}>Mobile Number:</Text>
+      <TextInput
+        style={styles.input}
+        value={mob}
+        onChangeText={text => setmob(text)}
+        placeholder="Enter mob"
         keyboardType="numeric"
       />
       <Text style={styles.label}>Mail ID:</Text>
@@ -136,12 +146,12 @@ const AddFacultyPnpl = () => {
         <Text style={styles.button2} onPress={handleReset}>Reset</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleSubmit}>
-        <Text style={styles.button1}>Update</Text>
+        <Text style={styles.button1}>Add</Text>
       </TouchableOpacity>
      </View>
 
 
-     <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:'#fafafa',width:"100%",padding:10,marginTop:60}}>
+     <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:'#fafafa',width:"100%",padding:10,marginTop:50}}>
 
     <TouchableOpacity onPress={handleHome}>
       <View >
@@ -177,7 +187,7 @@ const AddFacultyPnpl = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding:7,
+   padding:10,
     backgroundColor: '#fff',
   },
   button1: {
@@ -200,17 +210,18 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    margin: 7,
+    marginBottom: 5,
+    marginLeft:10,
     color:'grey'
   },
   input: {
     height: 40,
-    borderWidth: 1,
+    borderWidth: 0.5,
     backgroundColor:'#D0EFCB',
     borderColor: 'black',
     borderRadius: 5,
     paddingHorizontal: 10,
-    margin: 7,
+    margin: 10,
   },
 });
 

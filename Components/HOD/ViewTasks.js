@@ -42,7 +42,7 @@ const ViewTasksHod = ({ route }) => {
   };
 
   const handleItemPress = (item) => {
-    navigation.navigate('TaskDetailsPnpl', { faculty: item });
+    navigation.navigate('TaskDetailsHod', { faculty: item });
   };
 
   const onRefresh = async () => {

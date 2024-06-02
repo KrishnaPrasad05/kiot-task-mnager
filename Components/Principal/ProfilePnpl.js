@@ -108,6 +108,14 @@ navigation.navigate('About')
         <Text style={styles.text}>{item.department}</Text>
       </View>
       <View style={styles.infoContainer}>
+        <Text style={styles.label}>Role</Text>
+        <Text style={styles.text}>{item.role}</Text>
+      </View>
+      <View style={styles.infoContainer}>
+        <Text style={styles.label}>Mobile number</Text>
+        <Text style={styles.text}>{item.mob}</Text>
+      </View>
+      <View style={styles.infoContainer}>
         <Text style={styles.label}>Mail Id</Text>
         <Text style={styles.text}>{item.mailid}</Text>
       </View>

@@ -51,6 +51,8 @@ const AssignedOfCetails = ({ route }) => {
   return (
     <View style={styles.container}>
       <Text style={{ color: 'grey' }}>Name of the task</Text>
+      <Text style={{ marginBottom: 15 }}>{faculty.taskPurpose}</Text>
+      <Text style={{ color: 'grey' }}>Type of the task</Text>
       <Text style={{ marginBottom: 15 }}>{faculty.taskName}</Text>
       <Text style={{ color: 'grey' }}>Resolve By</Text>
       <Text style={{ marginBottom: 15 }}>{faculty.date} | {faculty.time}</Text>
@@ -77,6 +79,7 @@ const AssignedOfCetails = ({ route }) => {
         onRequestClose={() => setIsModalVisible(false)}
       >
         <View style={styles.modalContainer}>
+        <Text style={{color:'white',textAlign:'left',marginBottom:10,fontSize:15}}>Update Status : </Text>
           <Picker
             selectedValue={status}
             onValueChange={(itemValue) => setStatus(itemValue)}
@@ -87,13 +90,14 @@ const AssignedOfCetails = ({ route }) => {
             <Picker.Item label="Later" value="later" />
             <Picker.Item label="On-Progress" value="on-progress" />
           </Picker>
-
+          <View style={{display:'flex',alignItems:'center',justifyContent:'space-around',flexDirection:'row',width:'100%',flexWrap:'wrap'}}>
           <TouchableOpacity style={styles.button} onPress={handleUpdateStatus}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Save</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, { backgroundColor: 'grey' }]} onPress={() => setIsModalVisible(false)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Cancel</Text>
           </TouchableOpacity>
+          </View>
         </View>
       </Modal>
     </View>

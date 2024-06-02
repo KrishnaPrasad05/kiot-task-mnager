@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Button, Alert, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Button, Alert, Image, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AppContext from '../AppContext';
 
@@ -11,7 +11,8 @@ const FacultyDetailsPnpl = ({ route }) => {
   const [updatedValues, setUpdatedValues] = useState({
     name: faculty.name,
     department: faculty.department,
-    experience: faculty.experience,
+    role: faculty.role,
+    mob: faculty.mob,
     mailid: faculty.mailid,
     username: faculty.username,
     password: faculty.password,
@@ -66,7 +67,7 @@ const FacultyDetailsPnpl = ({ route }) => {
 
       if (response.ok) {
         Alert.alert('Success', 'Item deleted successfully');
-        navigation.navigate('HomePagePnpl');
+        navigation.navigate('HomePageHod');
       } else {
         Alert.alert('Error', 'Failed to delete item');
       }
@@ -76,7 +77,12 @@ const FacultyDetailsPnpl = ({ route }) => {
     }
   };
 
+  
+
   return (
+    <ScrollView>
+
+   
     <View style={styles.container}>
       <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Image
@@ -93,8 +99,16 @@ const FacultyDetailsPnpl = ({ route }) => {
         <Text style={styles.text}>{faculty.department}</Text>
       </View>
       <View style={styles.infoContainer}>
+        <Text style={styles.label}>Role</Text>
+        <Text style={styles.text}>{faculty.role}</Text>
+      </View>
+      <View style={styles.infoContainer}>
         <Text style={styles.label}>Mail Id</Text>
         <Text style={styles.text}>{faculty.mailid}</Text>
+      </View>
+      <View style={styles.infoContainer}>
+        <Text style={styles.label}>Mobile Number</Text>
+        <Text style={styles.text}>{faculty.mob}</Text>
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.label}>Username</Text>
@@ -114,50 +128,66 @@ const FacultyDetailsPnpl = ({ route }) => {
       </View>
       
       
+
+      
       <Modal
         visible={isModalVisible}
         animationType="slide"
         transparent={true}
         onRequestClose={() => setIsModalVisible(false)}
       >
+        <ScrollView>
         <View style={styles.modalContainer}>
+        <Text style={{color:'white',textAlign:'left',marginBottom:5,fontSize:15}}>Profile Picture : </Text>
         <TextInput
             style={styles.input}
             value={updatedValues.profImg}
             onChangeText={text => setUpdatedValues(prev => ({ ...prev, profImg: text }))}
             placeholder="Enter URL"
           />
+          <Text style={{color:'white',textAlign:'left',marginBottom:5,fontSize:15}}>Name : </Text>
           <TextInput
             style={styles.input}
             value={updatedValues.name}
             onChangeText={text => setUpdatedValues(prev => ({ ...prev, name: text }))}
             placeholder="Enter name"
           />
-         
+         <Text style={{color:'white',textAlign:'left',marginBottom:5,fontSize:15}}>Department : </Text>
           <TextInput
             style={styles.input}
             value={updatedValues.department}
             onChangeText={text => setUpdatedValues(prev => ({ ...prev, department: text }))}
             placeholder="Enter department"
           />
+          <Text style={{color:'white',textAlign:'left',marginBottom:5,fontSize:15}}>Role : </Text>
           <TextInput
             style={styles.input}
-            value={updatedValues.experience}
-            onChangeText={text => setUpdatedValues(prev => ({ ...prev, experience: text }))}
-            placeholder="Enter experience"
+            value={updatedValues.role}
+            onChangeText={text => setUpdatedValues(prev => ({ ...prev, role: text }))}
+            placeholder="Enter role"
           />
+          <Text style={{color:'white',textAlign:'left',marginBottom:5,fontSize:15}}>Mobile Number : </Text>
+          <TextInput
+            style={styles.input}
+            value={updatedValues.mob}
+            onChangeText={text => setUpdatedValues(prev => ({ ...prev, mob: text }))}
+            placeholder="Enter mobile number"
+          />
+          <Text style={{color:'white',textAlign:'left',marginBottom:5,fontSize:15}}>Mail ID : </Text>
           <TextInput
             style={styles.input}
             value={updatedValues.mailid}
             onChangeText={text => setUpdatedValues(prev => ({ ...prev, mailid: text }))}
             placeholder="Enter mail ID"
           />
+          <Text style={{color:'white',textAlign:'left',marginBottom:5,fontSize:15}}>Username : </Text>
           <TextInput
             style={styles.input}
             value={updatedValues.username}
             onChangeText={text => setUpdatedValues(prev => ({ ...prev, username: text }))}
             placeholder="Enter user name"
           />
+          <Text style={{color:'white',textAlign:'left',marginBottom:5,fontSize:15}}>Password : </Text>
           <TextInput
             style={styles.input}
             value={updatedValues.password}
@@ -175,8 +205,11 @@ const FacultyDetailsPnpl = ({ route }) => {
           </View>
           
         </View>
+        </ScrollView>
       </Modal>
+      
     </View>
+    </ScrollView>
   );
 };
 
@@ -227,6 +260,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     justifyContent: 'center',
     alignItems: 'center',
+    
   },
   input: {
     backgroundColor: '#D0EFCB',

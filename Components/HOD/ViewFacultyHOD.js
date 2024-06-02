@@ -70,7 +70,7 @@ const ViewFacultyHod = () => {
           />
           <View style={styles.textContainer}>
             <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.department}>{item.department}</Text>
+            <Text style={styles.department}>{item.role}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -80,9 +80,9 @@ const ViewFacultyHod = () => {
   return (
     <ScrollView>
     <View style={styles.container}>
-    <View style={{backgroundColor:'#024c12',padding:5,margin:10,borderWidth:0.5,borderColor:'black',borderRadius:5}}>
+    {/* <View style={{backgroundColor:'#024c12',padding:5,margin:10,borderWidth:0.5,borderColor:'black',borderRadius:5}}>
         <Text style={{color:'#fff',fontSize:20,textAlign:'center'}}>Task Status : {point}</Text>
-      </View>
+      </View> */}
       <FlatList
         data={data}
         renderItem={renderFacultyItem}

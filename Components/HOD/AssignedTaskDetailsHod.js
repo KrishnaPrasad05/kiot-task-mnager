@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Alert } fro
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import AppContext from '../AppContext';
-const AssignedTaskDetails = ({ route }) => {
+const AssignedTaskDetailsHod = ({ route }) => {
   const navigation = useNavigation();
   const { faculty } = route.params;
   const { variableValue, setVariableValue } = useContext(AppContext);
@@ -22,7 +22,7 @@ const AssignedTaskDetails = ({ route }) => {
 
       if (response.ok) {
         Alert.alert('Success', 'Status updated successfully');
-        navigation.navigate('AssignedTask');
+        navigation.navigate('HomePageHod');
       } else {
         Alert.alert('Error', 'Failed to update status');
       }
@@ -116,4 +116,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AssignedTaskDetails;
+export default AssignedTaskDetailsHod;

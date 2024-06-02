@@ -72,6 +72,7 @@
  import ReportTablePooled from './Components/HOD/ReportTablePooled';
 import AssignCCR1 from './Components/HOD/CCRAssign1';
 import About from './Components/About';
+import AssignedTaskDetailsHod from './Components/HOD/AssignedTaskDetailsHod';
  
  
  
@@ -153,6 +154,7 @@ import About from './Components/About';
    <Stack.Screen name="ReportTableOff" component={ReportTableOff} />
    <Stack.Screen name="ReportTablePooled" component={ReportTablePooled} />
    <Stack.Screen name="About" component={About} />
+   <Stack.Screen name="AssignedTaskDetailsHod" component={AssignedTaskDetailsHod} />
  
  </Stack.Navigator> 
  

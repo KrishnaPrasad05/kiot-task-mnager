@@ -70,7 +70,7 @@ const ViewFacultyPnpl= () => {
           />
           <View style={styles.textContainer}>
             <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.department}>{item.department}</Text>
+            <Text style={styles.department}>{item.role}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -124,7 +124,7 @@ const ViewFacultyPnpl= () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40,
+    paddingTop: 20,
     paddingHorizontal: 0,
   },
   itemContainer: {
@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 10,
     margin: 10,
+    borderWidth:0.5,borderColor:'black'
   },
   itemContent: {
     flexDirection: 'row',
