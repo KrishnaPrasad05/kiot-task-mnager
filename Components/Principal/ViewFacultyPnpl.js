@@ -89,7 +89,7 @@ const ViewFacultyPnpl= () => {
         }
       />
 
-<View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:'#fafafa',width:"100%",padding:10,marginTop:400}}>
+<View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:'#fafafa',width:"100%",padding:10,marginTop:50}}>
 
 <TouchableOpacity onPress={handleHome}>
   <View >

@@ -30,7 +30,7 @@ const FacultyDetailsPnpl = ({ route }) => {
 
       if (response.ok) {
         Alert.alert('Success', 'Item updated successfully');
-        navigation.navigate('ViewFacultyPnpl');
+        navigation.navigate('HomePagePnpl');
       } else {
         Alert.alert('Error', 'Failed to update item');
       }
@@ -66,7 +66,7 @@ const FacultyDetailsPnpl = ({ route }) => {
 
       if (response.ok) {
         Alert.alert('Success', 'Item deleted successfully');
-        navigation.navigate('ViewFacultyPnpl');
+        navigation.navigate('HomePagePnpl');
       } else {
         Alert.alert('Error', 'Failed to delete item');
       }
