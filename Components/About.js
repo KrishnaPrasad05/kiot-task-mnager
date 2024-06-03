@@ -28,11 +28,12 @@ With features such as secure user authentication, task tracking, and
 collaboration tools, the system ensures timely completion of tasks 
 while fostering communication and teamwork among users.
       </Text>
-      <Text style={styles.header}>Our Team</Text>
+      <Text style={styles.header}>Designed & Developed By</Text>
 
       <Text style={styles.link} onPress={() => openLink('https://www.linkedin.com/in/krishnaprasad-srinivasan/')}>
        KRISHNA PRASAD S
       </Text>
+      <Text style={styles.header}>Thanks to</Text>
       <Text style={styles.link} onPress={() => openLink('https://www.linkedin.com/in/mugilvendhan/')}>
         MUGIL VENDHAN G
       </Text>
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     fontSize: 16,
-    marginTop: 5,
+   
     textAlign: 'justify',
   },
   header: {

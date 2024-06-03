@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, RefreshControl, ScrollView } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, RefreshControl, ScrollView, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AppContext from '../AppContext';
 
@@ -78,7 +78,7 @@ const ViewFacultyHod = () => {
   };
 
   return (
-    <ScrollView>
+    <SafeAreaView style={{flex:1}}>
     <View style={styles.container}>
     {/* <View style={{backgroundColor:'#024c12',padding:5,margin:10,borderWidth:0.5,borderColor:'black',borderRadius:5}}>
         <Text style={{color:'#fff',fontSize:20,textAlign:'center'}}>Task Status : {point}</Text>
@@ -120,7 +120,7 @@ const ViewFacultyHod = () => {
   </TouchableOpacity>
 </View>
     </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 

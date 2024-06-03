@@ -85,7 +85,7 @@ const ProfileHod = () => {
   };
 
   const handleLogout = () => {
-navigation.navigate('LoginHod')
+navigation.navigate('CommonLand')
   }
   const handleAbout = () => {
 navigation.navigate('About')
@@ -160,7 +160,7 @@ navigation.navigate('About')
   </View>
   </TouchableOpacity>
   <TouchableOpacity onPress={handleProfile}>
-  <View style={{backgroundColor:'#D0EFCB',padding:10,borderRadius:5,display:'flex',alignItems:'center',justifyContent:'center',width:60,height:60}}>
+  <View style={{backgroundColor:'#D0EFCB',padding:10,borderRadius:5,display:'flex',alignItems:'center',justifyContent:'center'}}>
   <Image source={require('../../assets/Images/user (2).png')} style={{width:25,height:25}} />
   <Text>Profile</Text>
   </View>

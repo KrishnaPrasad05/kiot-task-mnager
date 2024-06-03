@@ -1,121 +1,172 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, RefreshControl ,Image, ScrollView} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, SafeAreaView, Alert, BackHandler } from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const HomePageHod = () => {
     const navigation = useNavigation();
 
     const handleAssignTask = () => {
-      // Navigate to the other page when the button is pressed
-      navigation.navigate('AssignTaskHod'); // Replace 'OtherPage' with the name of the target screen
+      navigation.navigate('AssignTaskHod');
     };
     const handleAssignedTask = () => {
-      // Navigate to the other page when the button is pressed
-      navigation.navigate('AssignedTaskHod'); // Replace 'OtherPage' with the name of the target screen
+      navigation.navigate('AssignedTaskHod');
     };
     const handleTrackTask = () => {
-      // Navigate to the other page when the button is pressed
-      navigation.navigate('TaskStatusHod'); // Replace 'OtherPage' with the name of the target screen
+      navigation.navigate('TaskStatusHod');
     };
     const handleTrackCCR = () => {
-      // Navigate to the other page when the button is pressed
-      navigation.navigate('TrackOperations'); // Replace 'OtherPage' with the name of the target screen
+      navigation.navigate('TrackOperations');
     };
     const handleAssignedCCR = () => {
-      // Navigate to the other page when the button is pressed
-      navigation.navigate('AssignCCR'); // Replace 'OtherPage' with the name of the target screen
+      navigation.navigate('AssignCCR');
     };
     const handleProfile = () => {
-      // Navigate to the other page when the button is pressed
-      navigation.navigate('ProfileHod'); // Replace 'OtherPage' with the name of the target screen
+      navigation.navigate('ProfileHod');
     };
     const handleHome = () => {
-      // Navigate to the other page when the button is pressed
-      navigation.navigate('HomePageHod'); // Replace 'OtherPage' with the name of the target screen
+      navigation.navigate('HomePageHod');
     };
     const handleAdd = () => {
-      // Navigate to the other page when the button is pressed
-      navigation.navigate('AddFacultyHod'); // Replace 'OtherPage' with the name of the target screen
+      navigation.navigate('AddFacultyHod');
     };
     const handleView = () => {
-      // Navigate to the other page when the button is pressed
-      navigation.navigate('ViewFacultyHod'); // Replace 'OtherPage' with the name of the target screen
+      navigation.navigate('ViewFacultyHod');
     };
-  
-    return(
-<ScrollView>
 
+    const handleBackPress = () => {
+      Alert.alert(
+        "Logout",
+        "Are you sure you want to logout?",
+        [
+          {
+            text: "Cancel",
+            onPress: () => null,
+            style: "cancel"
+          },
+          {
+            text: "OK",
+            onPress: () => navigation.navigate('CommonLand')
+          }
+        ],
+        { cancelable: false }
+      );
+      return true;
+    };
 
-<View style={{display:'flex',justifyContent:'center',alignItems:'center',marginTop:50,flex:1}}>
+      
+    useFocusEffect(
+      useCallback(() => {
+          const onBackPress = () => handleBackPress();
 
-    <TouchableOpacity onPress={handleAssignTask}>
-    <View style={{backgroundColor:'#D0EFCB',padding:30,width:300,display:'flex',justifyContent:'center',alignItems:'center',borderRadius:20,marginBottom:30,borderWidth:0.5,borderColor:'black'}}>
-    <Image source={require('../../assets/Images/list 1.png')} style={{width:100,height:100}} />
-    <Text>Assign Task</Text>
-    </View>
-    </TouchableOpacity>
-    <TouchableOpacity onPress={handleTrackTask}>
-    <View style={{backgroundColor:'#D0EFCB',padding:30,width:300,display:'flex',justifyContent:'center',alignItems:'center',borderRadius:20,marginBottom:30,borderWidth:0.5,borderColor:'black'}}>
-    <Image source={require('../../assets/Images/status 1.png')} style={{width:100,height:100}} />
-    <Text>Track Task</Text>
-    </View>
-    </TouchableOpacity>
-    <TouchableOpacity onPress={handleAssignedTask}>
-    <View style={{backgroundColor:'#D0EFCB',padding:30,width:300,display:'flex',justifyContent:'center',alignItems:'center',borderRadius:20,marginBottom:30,borderWidth:0.5,borderColor:'black'}}>
-    <Image source={require('../../assets/Images/clipboard (1).png')} style={{width:100,height:100}} />
-    <Text>Assigned Task</Text>
-    </View>
-    </TouchableOpacity>
-    
-    <TouchableOpacity onPress={handleAssignedCCR}>
-    <View style={{backgroundColor:'#D0EFCB',padding:30,width:300,display:'flex',justifyContent:'center',alignItems:'center',borderRadius:20,marginBottom:30,borderWidth:0.5,borderColor:'black'}}>
-    <Image source={require('../../assets/Images/delegation.png')} style={{width:100,height:100}} />
-    <Text>Assign Operation</Text>
-    </View>
-    </TouchableOpacity>
-    <TouchableOpacity onPress={handleTrackCCR}>
-    <View style={{backgroundColor:'#D0EFCB',padding:30,width:300,display:'flex',justifyContent:'center',alignItems:'center',borderRadius:20,marginBottom:30,borderWidth:0.5,borderColor:'black'}}>
-    <Image source={require('../../assets/Images/track (1).png')} style={{width:100,height:100}} />
-    <Text>Track Operation</Text>
-    </View>
-    </TouchableOpacity>
-   
-    
-   {/*  <TouchableOpacity onPress={handleProfile}>
-    <View style={{backgroundColor:'#D0EFCB',padding:30,width:300,display:'flex',justifyContent:'center',alignItems:'center',borderRadius:20}}>
-    <Image source={require('../../assets/Images/man 1.png')} style={{width:100,height:100}} />
-    <Text>Profile</Text>
-    </View>
-    </TouchableOpacity> */}
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
 
+          return () => {
+              BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+          };
+      }, [])
+  );
 
-    <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:'#fafafa',width:"100%",padding:10}}>
-
-    <TouchableOpacity onPress={handleHome}>
-      <View style={{backgroundColor:'#D0EFCB',padding:10,borderRadius:5,display:'flex',alignItems:'center',justifyContent:'center'}}>
-        
-      <Image source={require('../../assets/Images/home.png')} style={{width:25,height:25}} />
-      <Text>Home</Text>
-      </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleAdd}>
-      <View >
-      <Image source={require('../../assets/Images/add-friend.png')} style={{width:25,height:25}} />
-      </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleView}>
-      <View >
-      <Image source={require('../../assets/Images/list.png')} style={{width:25,height:25}} />
-      </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleProfile}>
-      <View >
-      <Image source={require('../../assets/Images/user (2).png')} style={{width:25,height:25}} />
-      </View>
-      </TouchableOpacity>
-    </View>
-</View>
-</ScrollView>
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: '#fff' }}>
+          <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 50, flex: 1 }}>
+            <TouchableOpacity onPress={handleAssignTask}>
+              <View style={styles.option}>
+                <Image source={require('../../assets/Images/list 1.png')} style={styles.optionImage} />
+                <Text>Assign Task</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleTrackTask}>
+              <View style={styles.option}>
+                <Image source={require('../../assets/Images/status 1.png')} style={styles.optionImage} />
+                <Text>Track Task</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleAssignedTask}>
+              <View style={styles.option}>
+                <Image source={require('../../assets/Images/clipboard (1).png')} style={styles.optionImage} />
+                <Text>Assigned Task</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleAssignedCCR}>
+              <View style={styles.option}>
+                <Image source={require('../../assets/Images/delegation.png')} style={styles.optionImage} />
+                <Text>Assign Operation</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleTrackCCR}>
+              <View style={styles.option}>
+                <Image source={require('../../assets/Images/track (1).png')} style={styles.optionImage} />
+                <Text>Track Operation</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.footer}>
+            <TouchableOpacity onPress={handleHome}>
+              <View style={styles.footerIcon}>
+                <Image source={require('../../assets/Images/home.png')} style={styles.footerImage} />
+                <Text>Home</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleAdd}>
+              <View>
+                <Image source={require('../../assets/Images/add-friend.png')} style={styles.footerImage} />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleView}>
+              <View>
+                <Image source={require('../../assets/Images/list.png')} style={styles.footerImage} />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleProfile}>
+              <View>
+                <Image source={require('../../assets/Images/user (2).png')} style={styles.footerImage} />
+              </View>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
     );
-}
+};
+
+const styles = StyleSheet.create({
+  option: {
+    backgroundColor: '#D0EFCB',
+    padding: 30,
+    width: 300,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    marginBottom: 30,
+    borderWidth: 0.5,
+    borderColor: 'black',
+  },
+  optionImage: {
+    width: 100,
+    height: 100,
+  },
+  footer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#fafafa',
+    width: "100%",
+    padding: 10,
+  },
+  footerIcon: {
+    backgroundColor: '#D0EFCB',
+    padding: 10,
+    borderRadius: 5,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  footerImage: {
+    width: 25,
+    height: 25,
+  },
+});
+
 export default HomePageHod;

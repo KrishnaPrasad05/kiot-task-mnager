@@ -41,6 +41,10 @@ const ViewFacultyPnpl= () => {
     }
   };
 
+  useEffect(()=>{
+    onRefresh()
+  },[]);
+
 
   
   const handleProfile = () => {

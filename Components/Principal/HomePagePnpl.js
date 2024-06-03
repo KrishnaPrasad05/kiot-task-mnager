@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, SafeAreaView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, SafeAreaView,Alert, BackHandler } from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const HomePagePnpl = () => {
     const navigation = useNavigation();
@@ -23,6 +23,38 @@ const HomePagePnpl = () => {
     const handleView = () => {
         navigation.navigate('ViewFacultyPnpl');
     };
+
+    const handleBackPress = () => {
+        Alert.alert(
+          "Logout",
+          "Are you sure you want to logout?",
+          [
+            {
+              text: "Cancel",
+              onPress: () => null,
+              style: "cancel"
+            },
+            {
+              text: "OK",
+              onPress: () => navigation.navigate('CommonLand')
+            }
+          ],
+          { cancelable: false }
+        );
+        return true;
+      };
+  
+      useFocusEffect(
+        useCallback(() => {
+            const onBackPress = () => handleBackPress();
+
+            BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+            return () => {
+                BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+            };
+        }, [])
+    );
 
     return (
         <SafeAreaView style={{ flex: 1 }}>

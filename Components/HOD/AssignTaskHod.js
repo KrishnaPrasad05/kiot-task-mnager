@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, ScrollView, Image, Modal } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, ScrollView, Image, Modal, SafeAreaView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import AppContext from '../AppContext';
@@ -164,7 +164,10 @@ const AssignTaskHod = () => {
   };
 
   return (
-    <ScrollView>
+    <SafeAreaView>
+
+    
+    <ScrollView contentContainerStyle={{flexGrow:1,backgroundColor:'#fff'}}>
       <View style={styles.container}>
         <Text style={styles.label}>Task Name:</Text>
         <TextInput
@@ -185,7 +188,13 @@ const AssignTaskHod = () => {
 
 
         <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <Text style={styles.button1}>Select Assignee</Text>
+            <Text style={{backgroundColor: '#024c12',
+    color: 'white',
+    textAlign: 'center',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    width:150}}>Select Assignee</Text>
           </TouchableOpacity>
         <Modal visible={modalVisible} animationType="slide" transparent={true}>
           <View style={styles.modalContainer}>
@@ -290,7 +299,9 @@ const AssignTaskHod = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.bottomMenu}>
+       
+      </View>
+      <View style={styles.bottomMenu}>
           <TouchableOpacity onPress={handleHome}>
             <Image source={require('../../assets/Images/home.png')} style={styles.menuIcon} />
           </TouchableOpacity>
@@ -298,17 +309,17 @@ const AssignTaskHod = () => {
             <Image source={require('../../assets/Images/add-friend.png')} style={styles.menuIcon} />
           </TouchableOpacity>
           <TouchableOpacity onPress={handleView}>
-            <View style={styles.menuItem}>
+           
               <Image source={require('../../assets/Images/list.png')} style={styles.menuIcon} />
-              <Text>View</Text>
-            </View>
+              
+            
           </TouchableOpacity>
           <TouchableOpacity onPress={handleProfile}>
             <Image source={require('../../assets/Images/user (2).png')} style={styles.menuIcon} />
           </TouchableOpacity>
         </View>
-      </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -375,7 +386,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#fafafa',
     width: "100%",
-    padding: 10,
+    padding: 30,
     marginTop: 50,
   },
   menuItem: {
@@ -398,7 +409,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
-    width: 120,
+    width:120
   },
   button2: {
     backgroundColor: 'lightgrey',

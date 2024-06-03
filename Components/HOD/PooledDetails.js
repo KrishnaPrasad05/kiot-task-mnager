@@ -79,7 +79,7 @@ const PooledDetails = ({ route }) => {
 
       if (response.ok) {
         Alert.alert('Success', 'Task updated successfully');
-        navigation.navigate('HomePageHod');
+        navigation.navigate('ViewPooled');
       } else {
         Alert.alert('Error', 'Failed to update task');
       }
@@ -117,7 +117,7 @@ const PooledDetails = ({ route }) => {
 
       if (response.ok) {
         Alert.alert('Success', 'Task deleted successfully');
-        navigation.navigate('HomePageHod');
+        navigation.navigate('ViewPooled');
       } else {
         Alert.alert('Error', 'Failed to delete task');
       }

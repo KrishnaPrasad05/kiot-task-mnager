@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, RefreshControl ,Image, ScrollView} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, RefreshControl ,Image, ScrollView,Alert, BackHandler} from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const HomePageFac = () => {
     const navigation = useNavigation();
@@ -34,6 +34,40 @@ const HomePageFac = () => {
       // Navigate to the other page when the button is pressed
       navigation.navigate('ProfileFac'); // Replace 'OtherPage' with the name of the target screen
     };
+
+    const handleBackPress = () => {
+      Alert.alert(
+        "Logout",
+        "Are you sure you want to logout?",
+        [
+          {
+            text: "Cancel",
+            onPress: () => null,
+            style: "cancel"
+          },
+          {
+            text: "OK",
+            onPress: () => navigation.navigate('CommonLand')
+          }
+        ],
+        { cancelable: false }
+      );
+      return true;
+    };
+
+    
+    useFocusEffect(
+      useCallback(() => {
+          const onBackPress = () => handleBackPress();
+
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+          return () => {
+              BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+          };
+      }, [])
+  );
+
   
     return(
 <ScrollView>

@@ -22,7 +22,7 @@ const AssignedTaskDetailsHod = ({ route }) => {
 
       if (response.ok) {
         Alert.alert('Success', 'Status updated successfully');
-        navigation.navigate('HomePageHod');
+        navigation.navigate('AssignedTaskHod');
       } else {
         Alert.alert('Error', 'Failed to update status');
       }

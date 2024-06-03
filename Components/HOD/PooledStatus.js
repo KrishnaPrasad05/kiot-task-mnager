@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, RefreshControl ,Image, ScrollView} from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, RefreshControl ,Image, ScrollView, SafeAreaView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AppContext from '../AppContext';
 
@@ -72,7 +72,8 @@ const PooledStatus = () => {
   
   
     return(
-<ScrollView>
+      <SafeAreaView>
+<ScrollView contentContainerStyle={{flexGrow:1,backgroundColor:'#fff'}}>
 
 
 <View style={{display:'flex',justifyContent:'center',alignItems:'center',marginTop:50}}>
@@ -118,6 +119,8 @@ const PooledStatus = () => {
     
 </View>
 </ScrollView>
+      </SafeAreaView>
+
     );
 }
 export default PooledStatus;

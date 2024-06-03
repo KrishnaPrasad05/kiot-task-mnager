@@ -71,7 +71,7 @@ const AssignedTaskHod = () => {
             <Text style={styles.name}>{item.taskName}</Text>
             <View style={{display:'flex',alignItems:'center',justifyContent:'space-between',flexDirection:'row',width:'100%',flexWrap:'wrap'}}>
               <Text style={{color:'grey'}}>Resolve By : {item.date} | {item.time}</Text>
-              <Text style={styles.department}>{item.status}</Text>
+              <Text style={styles.department}>⏳{item.priority}</Text>
             </View>
           </View>
         </View>
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     color:'#024c12'
   },
   department: {
-    color: 'grey',
+    color: 'maroon',
   },
 });
 

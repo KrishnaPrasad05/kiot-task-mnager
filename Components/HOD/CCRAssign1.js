@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-  Modal
+  Modal,
+  SafeAreaView
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
@@ -208,7 +209,8 @@ const AssignCCR1 = () => {
   };
 
   return (
-    <ScrollView>
+    <SafeAreaView>
+<ScrollView contentContainerStyle={{flexGrow:1,backgroundColor:'#fff'}}>
       <View style={styles.container}>
         <Text style={styles.label}>Task Type:</Text>
         <Picker
@@ -357,7 +359,9 @@ const AssignCCR1 = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.bottomMenu}>
+        
+      </View>
+      <View style={styles.bottomMenu}>
           <TouchableOpacity onPress={handleHome}>
             <Image source={require('../../assets/Images/home.png')} style={styles.menuIcon} />
           </TouchableOpacity>
@@ -374,8 +378,9 @@ const AssignCCR1 = () => {
             <Image source={require('../../assets/Images/user (2).png')} style={styles.menuIcon} />
           </TouchableOpacity>
         </View>
-      </View>
     </ScrollView>
+    </SafeAreaView>
+    
   );
 };
 

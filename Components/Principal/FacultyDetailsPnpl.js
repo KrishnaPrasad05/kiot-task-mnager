@@ -67,7 +67,7 @@ const FacultyDetailsPnpl = ({ route }) => {
 
       if (response.ok) {
         Alert.alert('Success', 'Item deleted successfully');
-        navigation.navigate('HomePageHod');
+        navigation.navigate('HomePagePnpl');
       } else {
         Alert.alert('Error', 'Failed to delete item');
       }

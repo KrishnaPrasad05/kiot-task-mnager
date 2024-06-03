@@ -69,7 +69,7 @@ const LoginPnpl = () => {
     
     <View style={styles.container}>
         <View style={styles.containerSm}>
-            <Text style={{fontWeight:600,margin:10,fontSize:25}}>KIOT - Task Manager</Text>
+            <Text style={{fontWeight:600,margin:10,fontSize:25,color:'#024C12'}}>KIOT - Task Manager</Text>
             
         <Image source={require('../../assets/Images/kiotLogo.png')} style={{borderRadius:10}} />
         </View>
@@ -137,9 +137,9 @@ const LoginPnpl = () => {
       <Text style={{color:'white'}}>Login</Text>
     </TouchableOpacity>
         </View>
-        <View style={styles.footer}>
+        {/* <View style={styles.footer}>
         <Text style={{color:'black'}}>&copy;KIOT | Developed by : KRISHNA PRASAD S & Team</Text>
-        </View>
+        </View> */}
     </View>
     </SafeAreaView>
   );

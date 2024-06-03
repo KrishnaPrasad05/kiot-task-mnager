@@ -64,7 +64,7 @@ const ProfileFac = () => {
   };
 
   const handleLogout = () => {
-navigation.navigate('LoginPageFac')
+navigation.navigate('CommonLand')
   }
   const handleAbout = () => {
 navigation.navigate('About')
