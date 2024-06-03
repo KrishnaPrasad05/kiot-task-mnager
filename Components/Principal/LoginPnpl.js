@@ -1,5 +1,5 @@
 import React, { useState,useEffect, useContext } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert,Image, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert,Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
@@ -64,6 +64,9 @@ const LoginPnpl = () => {
   };
 
   return (
+    <SafeAreaView style={{flex:1}}>
+
+    
     <View style={styles.container}>
         <View style={styles.containerSm}>
             <Text style={{fontWeight:600,margin:10,fontSize:25}}>KIOT - Task Manager</Text>
@@ -134,10 +137,11 @@ const LoginPnpl = () => {
       <Text style={{color:'white'}}>Login</Text>
     </TouchableOpacity>
         </View>
-        <View style={{marginTop:100,alignItems:'center'}}>
+        <View style={styles.footer}>
         <Text style={{color:'black'}}>&copy;KIOT | Developed by : KRISHNA PRASAD S & Team</Text>
         </View>
     </View>
+    </SafeAreaView>
   );
 };
 
@@ -167,7 +171,17 @@ const styles = StyleSheet.create({
     backgroundColor:'#D0EFCB',
     borderBottomLeftRadius:30,
     borderBottomRightRadius:30,
-  }
+  },
+  footer: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderTopWidth: 1,
+    borderColor: '#fff',
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    alignItems: 'center',
+  },
 });
 
 export default LoginPnpl;

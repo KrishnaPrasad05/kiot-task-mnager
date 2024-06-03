@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, RefreshControl, ScrollView } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, RefreshControl, ScrollView, SafeAreaView } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContext from '../AppContext';
@@ -91,7 +91,8 @@ navigation.navigate('About')
   }
   const renderFacultyItem = ({ item }) => {
     return (
-      <ScrollView>
+     
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
   <View>       
    <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Image
@@ -127,7 +128,7 @@ navigation.navigate('About')
         <Text style={styles.label}>Password</Text>
         <Text style={styles.text}>{item.password}</Text>
       </View>
-      <View style={{display:'flex',justifyContent:'space-around',alignItems:'center',flexDirection:'row'}}>
+      <View style={{display:'flex',justifyContent:'space-around',alignItems:'center',flexDirection:'row',marginBottom:10}}>
       <TouchableOpacity style={{backgroundColor:'grey',padding:10,width:100,borderRadius:10,margin:10}} onPress={handleLogout}>
         <Text style={{color:'white',textAlign:'center'}}>Logout</Text>
       </TouchableOpacity> 
@@ -138,7 +139,15 @@ navigation.navigate('About')
       
 
 
-      <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:'#fafafa',width:"100%",padding:10,marginTop:100}}>
+      <View style={{backgroundColor: '#fafafa',
+    padding: 15,
+    borderTopWidth: 1,
+    borderColor: '#fff',
+    width: '100%',
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',}}>
 
 <TouchableOpacity onPress={handleHome}>
   <View >
@@ -168,10 +177,12 @@ navigation.navigate('About')
 </View>
       </View>
       </ScrollView>
+      
     );
   };
 
   return (
+    <SafeAreaView style={{ flex: 1 }}>
     <View style={styles.container}>
       <FlatList
         data={data}
@@ -183,6 +194,7 @@ navigation.navigate('About')
         <Text style={styles.reloadButtonText}>Reload</Text>
       </TouchableOpacity> */}
     </View>
+    </SafeAreaView>
   );
 };
 

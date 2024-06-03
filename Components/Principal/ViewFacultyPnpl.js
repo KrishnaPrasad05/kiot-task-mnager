@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, RefreshControl, ScrollView } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, RefreshControl, ScrollView, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AppContext from '../AppContext';
 
@@ -78,7 +78,7 @@ const ViewFacultyPnpl= () => {
   };
 
   return (
-    <ScrollView>
+    <SafeAreaView style={{ flex: 1 }}>
     <View style={styles.container}>
       <FlatList
         data={data}
@@ -89,7 +89,17 @@ const ViewFacultyPnpl= () => {
         }
       />
 
-<View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:'#fafafa',width:"100%",padding:10,marginTop:50}}>
+
+    </View>
+    <View style={{ backgroundColor: '#fafafa',
+    padding: 20,
+    borderTopWidth: 1,
+    borderColor: '#fff',
+    width: '100%',
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',}}>
 
 <TouchableOpacity onPress={handleHome}>
   <View >
@@ -116,8 +126,7 @@ const ViewFacultyPnpl= () => {
   </View>
   </TouchableOpacity>
 </View>
-    </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 

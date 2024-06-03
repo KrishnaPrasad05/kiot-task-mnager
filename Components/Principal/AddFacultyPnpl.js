@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert,TouchableOpacity, ScrollView,Image } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert,TouchableOpacity, ScrollView,Image, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AppContext from '../AppContext';
 const AddFacultyPnpl = () => {
@@ -80,8 +80,10 @@ const AddFacultyPnpl = () => {
   };
 
   return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
     <View style={styles.container}>
-        <ScrollView>
+        
         <Text style={styles.label}>Name:</Text>
       <TextInput
         style={styles.input}
@@ -151,7 +153,21 @@ const AddFacultyPnpl = () => {
      </View>
 
 
-     <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:'#fafafa',width:"100%",padding:10,marginTop:50}}>
+     
+        
+     
+     
+    </View>
+    <View style={{ backgroundColor: '#fafafa',
+    padding: 20,
+    borderTopWidth: 1,
+    borderColor: '#fff',
+    width: '100%',
+    
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',}}>
 
     <TouchableOpacity onPress={handleHome}>
       <View >
@@ -177,10 +193,8 @@ const AddFacultyPnpl = () => {
       </View>
       </TouchableOpacity>
     </View>
-        </ScrollView>
-     
-     
-    </View>
+    </ScrollView>
+    </SafeAreaView>
   );
 };
 

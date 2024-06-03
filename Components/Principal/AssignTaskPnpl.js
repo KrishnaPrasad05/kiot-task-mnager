@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, ScrollView, Image, Modal } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, ScrollView, Image, Modal, SafeAreaView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import AppContext from '../AppContext';
@@ -16,11 +16,11 @@ const AssignTaskPnpl = () => {
   const [status, setStatus] = useState('Pending');
   const { variableValue, setVariableValue } = useContext(AppContext);
   const [facultyList, setFacultyList] = useState([]);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState([]);
+
   useEffect(() => {
     fetch(`https://${variableValue}/faculty`)
       .then(response => response.json())
@@ -62,14 +62,6 @@ const AssignTaskPnpl = () => {
   };
 
   const handleSave = async () => {
-    // Check if any field is empty
-   /*  console.log(taskName,selectedOption,description,date,time,priority)
-    if (!taskName || !selectedOptions || !description || !date || !time || !priority) {
-      Alert.alert('Error', 'Please fill in all fields');
-      return;
-    } */
-
-   
     try {
       const requests = selectedOptions.map(async option => {
         const createdAt = new Date().toLocaleString('en-US', {
@@ -82,7 +74,6 @@ const AssignTaskPnpl = () => {
         });
         const taskData = {
           taskName,
-        
           assignTo: option.name,
           description,
           date: date.toISOString().split('T')[0],
@@ -91,8 +82,6 @@ const AssignTaskPnpl = () => {
           createdAt,
           status
         };
-
-        
 
         const response = await fetch(`https://${variableValue}/tasks`, {
           method: 'POST',
@@ -112,12 +101,14 @@ const AssignTaskPnpl = () => {
       });
 
       const results = await Promise.all(requests);
-
+      if(!taskName|| !assignTo|| !description|| !date|| !time|| !priority|| !status){
+        Alert.alert('Error', 'Fill the missing fields');
+      } 
+      else{
       if (results.every(result => result === true)) {
         Alert.alert('Success', 'All tasks added successfully');
         setModalVisible(false);
         setTaskName('');
-        
         setAssignTo('');
         setDescription('');
         setDate(new Date());
@@ -126,20 +117,21 @@ const AssignTaskPnpl = () => {
       } else {
         Alert.alert('Error', 'Some tasks failed to add. Please try again.');
       }
+    }
     } catch (error) {
       console.error('Error saving tasks:', error);
       Alert.alert('Error', 'Failed to add tasks. Please try again.');
     }
-  }
+  };
 
   const handleReset = () => {
-    // Reset all form fields
     setTaskName('');
-    setSelectedOption(null);
+    setSelectedOptions([]);
+    setAssignTo('');
     setDescription('');
     setDate(new Date());
     setTime(new Date());
-    setPriority('');
+    setPriority('medium');
   };
 
   const handleProfile = () => {
@@ -159,151 +151,149 @@ const AssignTaskPnpl = () => {
   };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.label}>Task Name:</Text>
-        <TextInput
-          style={styles.input}
-          value={taskName}
-          onChangeText={text => setTaskName(text)}
-          placeholder="Enter task name"
-        />
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={styles.container}>
+          <Text style={styles.label}>Task Name:</Text>
+          <TextInput
+            style={styles.input}
+            value={taskName}
+            onChangeText={text => setTaskName(text)}
+            placeholder="Enter task name"
+          />
 
-<Text style={styles.label}>Assign To:</Text>
-        <TextInput
-          style={styles.input}
-          value={assignTo}
-          placeholder="Enter assignee name"
-          editable={false} // To make TextInput read-only
-        />
-      
+          <Text style={styles.label}>Assign To:</Text>
+          <TextInput
+            style={styles.input}
+            value={assignTo}
+            placeholder="Enter assignee name"
+            editable={false}
+          />
 
-
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
             <Text style={styles.button1}>Select Assignee</Text>
           </TouchableOpacity>
-        <Modal visible={modalVisible} animationType="slide" transparent={true}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Text>Select Assignee:</Text>
-              {facultyList.map(faculty => (
-                <TouchableOpacity
-                  key={faculty.id}
-                  onPress={() =>
-                    setSelectedOptions(prevOptions =>
-                      prevOptions.some(option => option.id === faculty.id)
-                        ? prevOptions.filter(option => option.id !== faculty.id)
-                        : [...prevOptions, faculty]
-                    )
-                  }
-                >
-                  <Text >
-                    {selectedOptions.some(option => option.id === faculty.id) ? '☑' : '☐'}{' '}
-                    {faculty.name}
-                  </Text>
-                </TouchableOpacity>
-              ))}
+          <Modal visible={modalVisible} animationType="slide" transparent={true}>
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <Text>Select Assignee:</Text>
+                {facultyList.map(faculty => (
+                  <TouchableOpacity
+                    key={faculty.id}
+                    onPress={() =>
+                      setSelectedOptions(prevOptions =>
+                        prevOptions.some(option => option.id === faculty.id)
+                          ? prevOptions.filter(option => option.id !== faculty.id)
+                          : [...prevOptions, faculty]
+                      )
+                    }
+                  >
+                    <Text>
+                      {selectedOptions.some(option => option.id === faculty.id) ? '☑' : '☐'}{' '}
+                      {faculty.name}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
 
-              <Button title="Save" onPress={handleSaveModal} />
-              <Button title="Cancel" onPress={() => setModalVisible(false)} />
+                <Button title="Save" onPress={handleSaveModal} />
+                <Button title="Cancel" onPress={() => setModalVisible(false)} />
+              </View>
+            </View>
+          </Modal>
+
+          <Text style={styles.label}>Description:</Text>
+          <TextInput
+            style={styles.textArea}
+            value={description}
+            onChangeText={text => setDescription(text)}
+            placeholder="Enter description"
+            multiline={true}
+            numberOfLines={4}
+          />
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={{ flex: 1, marginRight: 10 }}>
+              <Text style={styles.label}>Date:</Text>
+              <TouchableOpacity onPress={showDatePicker}>
+                <TextInput
+                  style={styles.input}
+                  value={date.toISOString().split('T')[0]}
+                  placeholder="Select date"
+                  editable={false}
+                />
+              </TouchableOpacity>
+              {isDatePickerVisible && (
+                <DateTimePicker
+                  value={date}
+                  mode="date"
+                  is24Hour={true}
+                  display="default"
+                  onChange={handleDateChange}
+                />
+              )}
+            </View>
+
+            <View style={{ flex: 1, marginLeft: 10 }}>
+              <Text style={styles.label}>Time:</Text>
+              <TouchableOpacity onPress={showTimePicker}>
+                <TextInput
+                  style={styles.input}
+                  value={time.toLocaleTimeString()}
+                  placeholder="Select time"
+                  editable={false}
+                />
+              </TouchableOpacity>
+              {isTimePickerVisible && (
+                <DateTimePicker
+                  value={time}
+                  mode="time"
+                  is24Hour={true}
+                  display="default"
+                  onChange={handleTimeChange}
+                />
+              )}
             </View>
           </View>
-        </Modal>
 
-        <Text style={styles.label}>Description:</Text>
-        <TextInput
-          style={styles.textArea}
-          value={description}
-          onChangeText={text => setDescription(text)}
-          placeholder="Enter description"
-          multiline={true}
-          numberOfLines={4}
-        />
+          <Text style={styles.label}>Priority:</Text>
+          <Picker
+            selectedValue={priority}
+            style={styles.picker}
+            onValueChange={(itemValue, itemIndex) => setPriority(itemValue)}
+          >
+            <Picker.Item label="Select any of options below" value="0" />
+            <Picker.Item label="High" value="high" />
+            <Picker.Item label="Medium" value="medium" />
+            <Picker.Item label="Low" value="low" />
+          </Picker>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={{ flex: 1, marginRight: 10 }}>
-            <Text style={styles.label}>Date:</Text>
-            <TouchableOpacity onPress={showDatePicker}>
-              <TextInput
-                style={styles.input}
-                value={date.toISOString().split('T')[0]}
-                placeholder="Select date"
-                editable={false}
-              />
+          <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row', marginTop: 20,marginBottom:10 }}>
+            <TouchableOpacity onPress={handleReset}>
+              <Text style={styles.button2}>Reset</Text>
             </TouchableOpacity>
-            {isDatePickerVisible && (
-              <DateTimePicker
-                value={date}
-                mode="date"
-                is24Hour={true}
-                display="default"
-                onChange={handleDateChange}
-              />
-            )}
+            <TouchableOpacity onPress={handleSave}>
+              <Text style={styles.button1}>Assign</Text>
+            </TouchableOpacity>
           </View>
 
-          <View style={{ flex: 1, marginLeft: 10 }}>
-            <Text style={styles.label}>Time:</Text>
-            <TouchableOpacity onPress={showTimePicker}>
-              <TextInput
-                style={styles.input}
-                value={time.toLocaleTimeString()}
-                placeholder="Select time"
-                editable={false}
-              />
-            </TouchableOpacity>
-            {isTimePickerVisible && (
-              <DateTimePicker
-                value={time}
-                mode="time"
-                is24Hour={true}
-                display="default"
-                onChange={handleTimeChange}
-              />
-            )}
-          </View>
+ 
         </View>
-
-        <Text style={styles.label}>Priority:</Text>
-        <Picker
-          selectedValue={priority}
-          style={styles.picker}
-          onValueChange={(itemValue, itemIndex) => setPriority(itemValue)}
-        >
-          <Picker.Item label="Select any of options below" value="0" />
-          <Picker.Item label="High" value="high" />
-          <Picker.Item label="Medium" value="medium" />
-          <Picker.Item label="Low" value="low" />
-        </Picker>
-
-        <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row' }}>
-          <TouchableOpacity >
-            <Text style={styles.button2} onPress={handleReset}>Reset</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleSave}>
-            <Text style={styles.button1}>Assign</Text>
-          </TouchableOpacity>
-        </View>
-
         <View style={styles.bottomMenu}>
-          <TouchableOpacity onPress={handleHome}>
-            <Image source={require('../../assets/Images/home.png')} style={styles.menuIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleAdd}>
-            <Image source={require('../../assets/Images/add-friend.png')} style={styles.menuIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleView}>
-            <View style={styles.menuItem}>
+            <TouchableOpacity onPress={handleHome}>
+              <Image source={require('../../assets/Images/home.png')} style={styles.menuIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleAdd}>
+              <Image source={require('../../assets/Images/add-friend.png')} style={styles.menuIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleView}>
               <Image source={require('../../assets/Images/list.png')} style={styles.menuIcon} />
-              <Text>View</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleProfile}>
-            <Image source={require('../../assets/Images/user (2).png')} style={styles.menuIcon} />
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ScrollView>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleProfile}>
+              <Image source={require('../../assets/Images/user (2).png')} style={styles.menuIcon} />
+            </TouchableOpacity>
+          </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -358,29 +348,16 @@ const styles = StyleSheet.create({
     maxHeight: '80%',
     width: '80%',
   },
-  optionText: {
-    padding: 10,
-    fontSize: 18,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
   bottomMenu: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     backgroundColor: '#fafafa',
-    width: "100%",
-    padding: 10,
-    marginTop: 50,
-  },
-  menuItem: {
-    backgroundColor: '#D0EFCB',
-    padding: 10,
-    width:60,
-    borderRadius: 5,
-    display:'flex',
+    padding: 30,
+    borderTopWidth: 1,
+    borderColor: '#fff',
+    width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
   },
   menuIcon: {
     width: 25,

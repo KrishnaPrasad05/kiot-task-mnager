@@ -1,89 +1,118 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, RefreshControl ,Image, ScrollView} from 'react-native';
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const HomePagePnpl = () => {
     const navigation = useNavigation();
 
     const handleAssignTask = () => {
-      // Navigate to the other page when the button is pressed
-      navigation.navigate('AssignTaskPnpl'); // Replace 'OtherPage' with the name of the target screen
+        navigation.navigate('AssignTaskPnpl');
     };
     const handleTrackTask = () => {
-      // Navigate to the other page when the button is pressed
-      navigation.navigate('TaskStatusPnpl'); // Replace 'OtherPage' with the name of the target screen
+        navigation.navigate('TaskStatusPnpl');
     };
     const handleProfile = () => {
-      // Navigate to the other page when the button is pressed
-      navigation.navigate('ProfilePnpl'); // Replace 'OtherPage' with the name of the target screen
+        navigation.navigate('ProfilePnpl');
     };
     const handleHome = () => {
-      // Navigate to the other page when the button is pressed
-      navigation.navigate('HomePagePnpl'); // Replace 'OtherPage' with the name of the target screen
+        navigation.navigate('HomePagePnpl');
     };
     const handleAdd = () => {
-      // Navigate to the other page when the button is pressed
-      navigation.navigate('AddFacultyPnpl'); // Replace 'OtherPage' with the name of the target screen
+        navigation.navigate('AddFacultyPnpl');
     };
     const handleView = () => {
-      // Navigate to the other page when the button is pressed
-      navigation.navigate('ViewFacultyPnpl'); // Replace 'OtherPage' with the name of the target screen
+        navigation.navigate('ViewFacultyPnpl');
     };
-  
-    return(
-<ScrollView>
 
-
-<View style={{display:'flex',justifyContent:'center',alignItems:'center',marginTop:50}}>
-
-    <TouchableOpacity onPress={handleAssignTask}>
-    <View style={{backgroundColor:'#D0EFCB',padding:30,width:300,display:'flex',justifyContent:'center',alignItems:'center',borderRadius:20,marginBottom:30,borderWidth:0.5,borderColor:'black'}}>
-    <Image source={require('../../assets/Images/list 1.png')} style={{width:100,height:100}} />
-    <Text>Assign Task</Text>
-    </View>
-    </TouchableOpacity>
-    <TouchableOpacity onPress={handleTrackTask}>
-    <View style={{backgroundColor:'#D0EFCB',padding:30,width:300,display:'flex',justifyContent:'center',alignItems:'center',borderRadius:20,marginBottom:30,borderWidth:0.5,borderColor:'black'}}>
-    <Image source={require('../../assets/Images/status 1.png')} style={{width:100,height:100}} />
-    <Text>Track Task</Text>
-    </View>
-    </TouchableOpacity>
-   {/*  <TouchableOpacity onPress={handleProfile}>
-    <View style={{backgroundColor:'#D0EFCB',padding:30,width:300,display:'flex',justifyContent:'center',alignItems:'center',borderRadius:20}}>
-    <Image source={require('../../assets/Images/man 1.png')} style={{width:100,height:100}} />
-    <Text>Profile</Text>
-    </View>
-    </TouchableOpacity> */}
-
-<View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',backgroundColor:'#fafafa',width:"100%",padding:10,marginTop:300}}>
-
-    <TouchableOpacity onPress={handleHome}>
-      <View style={{backgroundColor:'#D0EFCB',padding:10,borderRadius:5,display:'flex',alignItems:'center',justifyContent:'center'}}>
-        
-      <Image source={require('../../assets/Images/home.png')} style={{width:25,height:25}} />
-      <Text>Home</Text>
-      </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleAdd}>
-      <View >
-      <Image source={require('../../assets/Images/add-friend.png')} style={{width:25,height:25}} />
-      </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleView}>
-      <View >
-      <Image source={require('../../assets/Images/list.png')} style={{width:25,height:25}} />
-      </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleProfile}>
-      <View >
-      <Image source={require('../../assets/Images/user (2).png')} style={{width:25,height:25}} />
-      </View>
-      </TouchableOpacity>
-    </View>
-    
-</View>
-
-</ScrollView>
+    return (
+        <SafeAreaView style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                        <TouchableOpacity onPress={handleAssignTask}>
+                            <View style={styles.buttonContainer}>
+                                <Image source={require('../../assets/Images/list 1.png')} style={styles.image} />
+                                <Text>Assign Task</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleTrackTask}>
+                            <View style={styles.buttonContainer}>
+                                <Image source={require('../../assets/Images/status 1.png')} style={styles.image} />
+                                <Text>Track Task</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+                <View style={styles.footer}>
+                    <TouchableOpacity onPress={handleHome}>
+                        <View style={styles.footerButton}>
+                            <Image source={require('../../assets/Images/home.png')} style={styles.footerImage} />
+                            <Text>Home</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleAdd}>
+                        <View>
+                            <Image source={require('../../assets/Images/add-friend.png')} style={styles.footerImage} />
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleView}>
+                        <View>
+                            <Image source={require('../../assets/Images/list.png')} style={styles.footerImage} />
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleProfile}>
+                        <View>
+                            <Image source={require('../../assets/Images/user (2).png')} style={styles.footerImage} />
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    buttonContainer: {
+        backgroundColor: '#D0EFCB',
+        padding: 30,
+        width: 300,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 20,
+        marginBottom: 30,
+        borderWidth: 0.5,
+        borderColor: 'black'
+    },
+    image: {
+        width: 100,
+        height: 100
+    },
+    footer: {
+      backgroundColor: '#fff',
+    padding: 10,
+    borderTopWidth: 1,
+    borderColor: '#fff',
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'space-between',
+        flexDirection: 'row'
+    },
+    footerButton: {
+        backgroundColor: '#D0EFCB',
+        padding: 10,
+        borderRadius: 5,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    footerImage: {
+        width: 25,
+        height: 25
+    }
+});
+
 export default HomePagePnpl;
